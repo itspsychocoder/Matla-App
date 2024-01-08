@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from "@react-navigation/native";
-import Tabs from "./navigation/tabs";
-export default function App() {
+
+export default function Homepage() {
   return (
-    <NavigationContainer>
-    <Tabs/>
-  </NavigationContainer>
+    <View style={styles.container}>
+      <Text style={styles.subHeading}>Homepage</Text>
+     
+      <StatusBar style="auto" />
+    </View>
   );
 }
 
@@ -17,7 +18,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  heading: {
-    fontSize: 30,
+
+ 
+ 
+
+  subHeading: {
+    color: "#162447",
+    fontSize: 18
   }
+
 });
