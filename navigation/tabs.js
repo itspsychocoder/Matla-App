@@ -24,7 +24,7 @@ return (
                     elevation: 0,
                 
                     backgroundColor: "#F95738",
-                    height: 80,
+                    height: 50,
                     ...styles.shadow
                 }
             ]
