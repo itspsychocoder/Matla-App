@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 
 const useUserStore = create((set) => ({
-  fullName: "",
+  firstName: "",
+  lastName: "",
   username: "",
   totalFollowers: 0,
   totalFollowing: 0,
@@ -11,9 +12,11 @@ const useUserStore = create((set) => ({
   setTotalFollowers: (number) => set({ totalFollowers:number }),
   setTotalFollowing: (number) => set({ totalFollowing:number }),
   setUsername: (newUsername) => set({ username:newUsername }),
-  setFullname: (name) => set({ fullName:name }),
+  setFirstName: (name) => set({ firstName:name }),
+  setLastName: (name) => set({ lastName:name }),
   setEmail: (newEmail) => set({ email:newEmail }),
-  setIsLogin: (newLoginState) => set({ isLogin:newLoginState })
+  setIsLogin: (newLoginState) => set({ isLogin:newLoginState }),
+  setAvatar: (newAvatar) => set({ avatar:newAvatar })
 }))
 
 export default useUserStore;

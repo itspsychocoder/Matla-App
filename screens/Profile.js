@@ -1,16 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import useUserStore from '../store/store';
+
 export default function Profile() {
+  const setIsLogin = useUserStore((state) => state.setIsLogin);
+  const firstName = useUserStore((state) => state.firstName);
+  const lastName = useUserStore((state) => state.lastName);
+  const username = useUserStore((state) => state.username);
+  const avatar = useUserStore((state) => state.avatar);
+  const totalFollowers = useUserStore((state) => state.totalFollowers);
+  const totalFollowing = useUserStore((state) => state.totalFollowing);
+
+  const logout = () => {
+    AsyncStorage.removeItem("token");
+    setIsLogin(false)
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>My Profile</Text>
      <View style={styles.flexDiv}>
      <Image style={styles.avatar} source={require("../assets/profile.jpg")} alt='Profile Image'/>
      <View style={styles.dataDiv}>
-      <Text style={styles.subHeading}>Hussnain Ahmad</Text>
-      <Text>@Psycho</Text>
+      <Text style={styles.subHeading}>{firstName} {lastName}</Text>
+      <Text>@{username}</Text>
      </View>
      </View>
 
@@ -19,13 +34,13 @@ export default function Profile() {
 
      <View style={styles.card}>
     <Text style={styles.cardHeading}>Followers</Text>
-    <Text style={styles.cardNumber}>100</Text>
+    <Text style={styles.cardNumber}>{totalFollowers}</Text>
      </View>
 
 
      <View style={styles.card}>
     <Text style={styles.cardHeading}>Following</Text>
-    <Text style={styles.cardNumber}>0</Text>
+    <Text style={styles.cardNumber}>{totalFollowing}</Text>
      </View>
     
      
@@ -67,7 +82,7 @@ export default function Profile() {
 
   <View style={styles.settingsContainer}>
 
-    <View style={styles.flexDiv}>
+    <View  style={styles.flexDiv}>
       <Text style={styles.icon}>        <Image source={require("../assets/icons/display.png")}/>
       </Text>
       <Text style={styles.normalText}>
@@ -77,14 +92,14 @@ export default function Profile() {
     </View>
 
       
-    <View style={styles.flexDiv}>
+    <TouchableOpacity onPress={logout} style={styles.flexDiv}>
       <Text style={styles.icon}>        <Image source={require("../assets/icons/logout.png")}/>
       </Text>
       <Text style={styles.normalText}>
         
     Logout
       </Text>
-    </View>
+    </TouchableOpacity>
 
   </View>
       

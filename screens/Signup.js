@@ -5,7 +5,6 @@ import { SafeAreaView, Alert, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import useUserStore from '../store/store';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
@@ -13,16 +12,17 @@ export default function Login() {
   const username = useUserStore((state) => state.username);
   const isLogin = useUserStore((state) => state.isLogin);
   const setUsername = useUserStore((state) => state.setUsername);
-  const setIsLogin = useUserStore((state) => state.setIsLogin);
-  const setTotalFollowers = useUserStore((state) => state.setTotalFollowers);
-  const setTotalFollowing = useUserStore((state) => state.setTotalFollowing);
   const setAvatar = useUserStore((state) => state.setAvatar);
+  const setIsLogin = useUserStore((state) => state.setIsLogin);
 
 
 
   const navigation = useNavigation();
 
   const [email, setEmail] = useState("")
+  const [Username, SetUsername] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [password, setPassword] = useState("");
 
   const moveToSignup = () => {
@@ -31,13 +31,13 @@ export default function Login() {
 
   const checkLogin = () => {
     console.log("Wait");
-    fetch("http://192.168.56.1:3000/api/auth/login", {
+    fetch("http://192.168.56.1:3000/api/auth/signup", {
       method: "POST",
 
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ username: email, password: password })
+      body: JSON.stringify({ username: Username, firstName: firstName, lastName: lastName, email: email, password: password })
 
     })
 
@@ -46,9 +46,7 @@ export default function Login() {
         Alert.alert(data.message)
         console.log(data.message)
         if (data.type == "success") {
-          setUsername(email);
-          setIsLogin(true);
-          AsyncStorage.setItem("token", data.token);
+          navigation.navigate('Login')
         }
       })
       .catch(error => {
@@ -63,7 +61,7 @@ export default function Login() {
       <View style={styles.container}>
         <Image style={styles.logo} source={require("../assets/profile.jpg")}/>
         <Text style={styles.heading}>Matla</Text>
-        <Text style={styles.subHeading}>Login</Text>
+        <Text style={styles.subHeading}>Signup</Text>
 
 
         <TextInput
@@ -71,7 +69,37 @@ export default function Login() {
           style={styles.input}
           value={email}
           onChangeText={text => setEmail(text)}
+          placeholder="Enter email"
+          keyboardType="email-address"
+          placeholderTextColor="white"
+          
+          />
+        <TextInput
+          editable
+          style={styles.input}
+          value={Username}
+          onChangeText={text => SetUsername(text)}
           placeholder="Username"
+          keyboardType="default"
+          placeholderTextColor="white"
+          
+          />
+        <TextInput
+          editable
+          style={styles.input}
+          value={firstName}
+          onChangeText={text => setFirstName(text)}
+          placeholder="First Name"
+          keyboardType="default"
+          placeholderTextColor="white"
+          
+          />
+        <TextInput
+          editable
+          style={styles.input}
+          value={lastName}
+          onChangeText={text => setLastName(text)}
+          placeholder="Last Name"
           keyboardType="default"
           placeholderTextColor="white"
           

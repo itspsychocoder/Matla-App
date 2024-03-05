@@ -2,7 +2,51 @@ import { StatusBar } from "expo-status-bar";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import { useCallback, useEffect, useState } from "react";
+import useUserStore from '../store/store';
+
 export default function Homepage() {
+  const username = useUserStore((state) => state.username);
+  const setEmail = useUserStore((state) => state.setEmail);
+  const setFirstName = useUserStore((state) => state.setFirstName);
+  const setLastName = useUserStore((state) => state.setLastName);
+  const setTotalFollowers = useUserStore((state) => state.setTotalFollowers);
+  const setTotalFollowing = useUserStore((state) => state.setTotalFollowing);
+  const setAvatar = useUserStore((state) => state.setAvatar);
+  const firstName = useUserStore((state) => state.firstName);
+  const lastName = useUserStore((state) => state.lastName);
+
+
+  const getProfileData = () => {
+    console.log("Wait");
+    fetch("http://192.168.56.1:3000/api/profiles/get-profile-data", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username: username })
+
+    })
+
+      .then(res => res.json())
+      .then(data => {
+        
+        console.log(data)
+        if (data.type == "success") {
+          setEmail(data.user.email);
+          setFirstName(data.user.firstName);
+          setLastName(data.user.lastName);
+          setTotalFollowers(data.user.totalFollowers);
+          setTotalFollowing(data.user.totalFollowing);
+          setAvatar(data.user.avatar);
+       
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+  
   const [isFontLoaded, setIsFontLoaded] = useState(false);
   const [isLoaded] = useFonts({
     test: require("../assets/fonts/urdu-font.ttf"),
@@ -12,6 +56,7 @@ export default function Homepage() {
     if (isLoaded) {
       console.log("Font Loaded");
     }
+    getProfileData()
   }, [isLoaded]);
 
   if (!isLoaded) {
@@ -21,7 +66,7 @@ export default function Homepage() {
 
   return (
     <View style={styles.container} onLayout={handleOnLayout}>
-      <Text style={styles.subHeading}>Welcome, Psycho</Text>
+      <Text style={styles.subHeading}>Welcome, {firstName} {lastName}</Text>
       <Text style={styles.poetryOfDay}>Poetry of the Day</Text>
       <View style={[styles.box, styles.shadowProp]}>
         <Text style={{ fontFamily: "test", fontSize: 22 }}>
