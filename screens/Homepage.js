@@ -1,10 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import { useFonts } from "expo-font";
 import { useCallback, useEffect, useState } from "react";
 import useUserStore from '../store/store';
 
 export default function Homepage() {
+  const [dailyVerse, setDailyVerse] = useState({});
   const username = useUserStore((state) => state.username);
   const setEmail = useUserStore((state) => state.setEmail);
   const setFirstName = useUserStore((state) => state.setFirstName);
@@ -46,6 +47,25 @@ export default function Homepage() {
         console.log(error)
       })
   }
+  const getPoetryOfDay = () => {
+    console.log("Wait");
+    fetch("http://192.168.56.1:3000/api/daily-verse/get-verse")
+
+      .then(res => res.json())
+      .then(data => {
+        
+        console.log(data.verse)
+        if (data.type == "success") {
+          setDailyVerse(data.verse)
+       
+          
+       
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
   
   const [isFontLoaded, setIsFontLoaded] = useState(false);
   const [isLoaded] = useFonts({
@@ -56,7 +76,8 @@ export default function Homepage() {
     if (isLoaded) {
       console.log("Font Loaded");
     }
-    getProfileData()
+    getProfileData();
+    getPoetryOfDay();
   }, [isLoaded]);
 
   if (!isLoaded) {
@@ -69,13 +90,23 @@ export default function Homepage() {
       <Text style={styles.subHeading}>Welcome, {firstName} {lastName}</Text>
       <Text style={styles.poetryOfDay}>Poetry of the Day</Text>
       <View style={[styles.box, styles.shadowProp]}>
-        <Text style={{ fontFamily: "test", fontSize: 22 }}>
-          تم تو خود سے بھی خوب صورت ہو
-        </Text>
-        <Text style={{ fontFamily: "test", fontSize: 22 }}>
-          کس لیے دیکھتی ہو آئینہ
-        </Text>
+      {/* <TouchableOpacity onPress={getPoetryOfDay} style={styles.flexDiv}>
+     
+      <Text style={styles.normalText}>
+        
+    Reload
+      </Text>
+    </TouchableOpacity> */}
 
+        <Text style={{ fontFamily: "test", fontSize: 22 }}>
+       
+          {dailyVerse.verse?.split("\\n")[0]}
+
+        </Text>
+        <Text style={{ fontFamily: "test", fontSize: 22 }}>
+          {dailyVerse.verse?.split("\\n")[1]}
+        </Text>
+       
         <View
           style={{
             display: "flex",
@@ -90,7 +121,7 @@ export default function Homepage() {
             alt="Profile Image"
           />
 
-          <Text style={styles.poetOfDay}>Faiz Ahmad Faiz</Text>
+          <Text style={styles.poetOfDay}>{dailyVerse.poetName}</Text>
         </View>
       </View>
 

@@ -1,8 +1,8 @@
 import { StatusBar } from "expo-status-bar";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, ScrollView } from "react-native";
 import { useFonts } from "expo-font";
 import { useCallback, useEffect, useState } from "react";
-export default function Homepage() {
+export default function Homepage({verse, poet}) {
   const [isFontLoaded, setIsFontLoaded] = useState(false);
   const [isLoaded] = useFonts({
     test: require("../assets/fonts/urdu-font.ttf"),
@@ -20,6 +20,8 @@ export default function Homepage() {
   }
 
   return (
+    
+
     <View style={styles.container} onLayout={handleOnLayout}>
       <View style={[styles.box, styles.shadowProp]}>
         <View
@@ -29,20 +31,20 @@ export default function Homepage() {
             justifyContent: "center",
             alignItems: "center",
           }}
-        >
+          >
           <Image
             style={styles.avatar}
             source={require("../assets/faiz.jpg")}
             alt="Profile Image"
-          />
+            />
 
-          <Text style={styles.poetOfDay}>@FaizAhmadFaiz</Text>
+          <Text style={styles.poetOfDay}>@{poet}</Text>
         </View>
         <Text style={{ fontFamily: "test", fontSize: 22 }}>
-          تم تو خود سے بھی خوب صورت ہو
+          {verse?.split("\\n")[0]}
         </Text>
         <Text style={{ fontFamily: "test", fontSize: 22 }}>
-          کس لیے دیکھتی ہو آئینہ
+          {verse?.split("\\n")[1]}
         </Text>
 
         <View
@@ -52,7 +54,7 @@ export default function Homepage() {
             borderTopWidth: 2,
             borderColor: "black",
           }}
-        >
+          >
           <View
             style={{
               display: "flex",
@@ -61,7 +63,7 @@ export default function Homepage() {
               alignItems: "center",
               marginVertical: 10,
             }}
-          >
+            >
             <View style={styles.actionBtn}>
               <Image
                 style={{ marginHorizontal: 3 }}
