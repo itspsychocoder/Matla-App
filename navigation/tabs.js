@@ -5,7 +5,7 @@ import Homepage from "../screens/Homepage";
 import Feed from "../screens/Feed";
 import Search from "../screens/Search";
 import Profile from "../screens/Profile";
-
+import SingleVerse from "../screens/SingleVerse"
 const Tab = createBottomTabNavigator();
 
 export default function Tabs(){
@@ -24,7 +24,7 @@ return (
                     elevation: 0,
                 
                     backgroundColor: "#F95738",
-                    height: 50,
+                    height: 60,
                     ...styles.shadow
                 }
             ]
@@ -58,7 +58,7 @@ return (
         tabBarIcon: ({focused})=> {
            return (
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={require("../assets/icons/home.png")}
+                <Image source={require("../assets/icons/feed.png")}
                 style={{
 
                     width: 26,
@@ -80,7 +80,8 @@ return (
         tabBarIcon: ({focused})=> {
            return (
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={require("../assets/icons/home.png")}
+                
+                <Image source={require("../assets/icons/search.png")}
                 style={{
 
                     width: 26,
@@ -99,13 +100,26 @@ return (
         tabBarIcon: ({focused})=> {
            return (
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={require("../assets/icons/home.png")}
-                style={{
+                {
+                    focused?(
+                        <Image source={require("../assets/icons/profile-focused.png")}
+                        style={{
 
-                    width: 26,
-                    height: 26,
-                    tintColor: focused ? "white": "#162447"
-                }}/>
+                            width: 26,
+                            height: 26,
+                            tintColor: focused ? "white": "#162447"
+                        }}/>
+                    ):(
+                        <Image source={require("../assets/icons/profile.png")}
+                        style={{
+
+                            width: 26,
+                            height: 26,
+                            tintColor: focused ? "white": "#162447"
+                        }}/>
+                    )
+                }
+               
                 <Text style={{
                     color: focused ? "white": "#162447"
                 }}>Profile</Text>
@@ -114,6 +128,9 @@ return (
         }
         
         }}/> 
+
+
+
     </Tab.Navigator>
 )
 }

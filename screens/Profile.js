@@ -5,7 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useUserStore from '../store/store';
 
-export default function Profile() {
+export default function Profile({navigation}) {
   const setIsLogin = useUserStore((state) => state.setIsLogin);
   const firstName = useUserStore((state) => state.firstName);
   const lastName = useUserStore((state) => state.lastName);
@@ -92,7 +92,7 @@ export default function Profile() {
     </View>
 
       
-    <TouchableOpacity onPress={logout} style={styles.flexDiv}>
+    <TouchableOpacity onPress={()=>navigation.navigate("SingleVerse")} style={styles.flexDiv}>
       <Text style={styles.icon}>        <Image source={require("../assets/icons/logout.png")}/>
       </Text>
       <Text style={styles.normalText}>

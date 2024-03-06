@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Image, StyleSheet, Text, View, ScrollView } from "react-native";
+import { Image, StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
 import { useFonts } from "expo-font";
 import { useCallback, useEffect, useState } from "react";
 export default function Homepage({verse, poet}) {
@@ -73,13 +73,13 @@ export default function Homepage({verse, poet}) {
             </View>
             
 
-            <View style={styles.actionBtn}>
+            <TouchableOpacity onPress={()=>navigation.navigate("SingleVerse")} style={styles.actionBtn}>
               <Image
                 style={{ marginHorizontal: 3 }}
                 source={require("../assets/icons/explore.png")}
               />
               <Text>Explore</Text>
-            </View>
+            </TouchableOpacity>
 
 
 

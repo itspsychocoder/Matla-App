@@ -7,12 +7,10 @@ import { StyleSheet, TextInput,Text, View, TouchableOpacity, ScrollView, Activit
 export default function Search() {
   const [verses, setVerses] = useState([]);
   const [search, setSearch] = useState("");
-  const [isFirstTime, setIsFirstTime] = useState(true);
   const [isLoading, setIsLoading] = useState(false)
 
 
   const searchKeyword = async() => {
-    setIsFirstTime(false);
     setIsLoading(true);
     console.log("Searching");
     fetch("http://192.168.56.1:3000/api/search/search-keyword", {
@@ -59,27 +57,8 @@ export default function Search() {
    Search
      </Text>
    </TouchableOpacity>
-   <ActivityIndicator animating={isLoading} color={"#fff"} size={"large"}/>
    
-   {
-    isLoading==false&&verses.length==0&&isFirstTime==false?(
-      <View>
-      <Text style={styles.noVerseFound}>No Verse or Poet Found.</Text>
-      </View>
-    ):null
-   }
-
-   {
-    isLoading==false&&verses.length!=0&&isFirstTime==false?(
-      <Text style={styles.noVerseFound}>Search Results ({verses.length})</Text>
-    ):null
-   }
-
-   {
-        verses.map((verse, index)=> {
-          return <Post poet={verse.poetName} verse={verse.verse} key={index}/>
-        })
-      }
+  
       <StatusBar style="auto" />
     </View>
 </ScrollView>
@@ -105,7 +84,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     padding: 10,
     color: "white",
-    borderRadius:20,
+    borderRadius: 10,
   },
   button: {
     marginHorizontal: 5,
