@@ -27,6 +27,7 @@ export default function App() {
   const setAvatar = useUserStore((state) => state.setAvatar);
   const firstName = useUserStore((state) => state.firstName);
   const lastName = useUserStore((state) => state.lastName);
+  const isSingleVerse = useUserStore((state) => state.isSingleVerse);
 const Tab = createBottomTabNavigator();
 
   useEffect(() => {
@@ -57,11 +58,10 @@ const Tab = createBottomTabNavigator();
   return (
     <NavigationContainer>
        {
-      isLogin?<Tabs/>:<Auth/>
+      isLogin?isSingleVerse?<SeparatePages/>:<Tabs/>:<Auth/>
     }
 
 
-<SeparatePages/>
     
 
       

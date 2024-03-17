@@ -9,6 +9,9 @@ const useUserStore = create((set) => ({
   email: "",
   avatar: "",
   isLogin: false,
+  isSingleVerse: false,
+  verseId: "",
+  setVerseId: (id) => set({ verseId:id }),
   setTotalFollowers: (number) => set({ totalFollowers:number }),
   setTotalFollowing: (number) => set({ totalFollowing:number }),
   setUsername: (newUsername) => set({ username:newUsername }),
@@ -16,6 +19,7 @@ const useUserStore = create((set) => ({
   setLastName: (name) => set({ lastName:name }),
   setEmail: (newEmail) => set({ email:newEmail }),
   setIsLogin: (newLoginState) => set({ isLogin:newLoginState }),
+  setIsSingleVerse: (newState) => set({ isSingleVerse:newState }),
   setAvatar: (newAvatar) => set({ avatar:newAvatar })
 }))
 

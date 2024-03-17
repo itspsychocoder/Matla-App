@@ -2,7 +2,11 @@ import { StatusBar } from "expo-status-bar";
 import { Image, StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
 import { useFonts } from "expo-font";
 import { useCallback, useEffect, useState } from "react";
-export default function Homepage({verse, poet}) {
+import useUserStore from "../store/store";
+export default function Homepage({verseId,verse, poet}) {
+  const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
+  const setVerseId = useUserStore((state) => state.setVerseId);
+  
   const [isFontLoaded, setIsFontLoaded] = useState(false);
   const [isLoaded] = useFonts({
     test: require("../assets/fonts/urdu-font.ttf"),
@@ -73,7 +77,10 @@ export default function Homepage({verse, poet}) {
             </View>
             
 
-            <TouchableOpacity onPress={()=>navigation.navigate("SingleVerse")} style={styles.actionBtn}>
+            <TouchableOpacity onPress={()=>{
+              setVerseId(verseId);
+              setIsSingleVerse(true);
+            }} style={styles.actionBtn}>
               <Image
                 style={{ marginHorizontal: 3 }}
                 source={require("../assets/icons/explore.png")}

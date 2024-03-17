@@ -42,7 +42,7 @@ export default function Feed() {
      </View>
       {
         verses.map((verse, index)=> {
-          return <Post poet={verse.poetName} verse={verse.verse} key={index}/>
+          return <Post verseId={verse._id} poet={verse.poetName} verse={verse.verse} key={index}/>
         })
       }
       <StatusBar style="auto" />
