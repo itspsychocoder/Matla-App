@@ -1,12 +1,17 @@
 import { StatusBar } from "expo-status-bar";
-import { Image, StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text, Alert,  View, ScrollView, TouchableOpacity } from "react-native";
 import { useFonts } from "expo-font";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import useUserStore from "../store/store";
+import * as ImageManipulator from 'expo-image-manipulator';
+import * as MediaLibrary from 'expo-media-library';
+import { captureRef } from 'react-native-view-shot';
 export default function Homepage({verseId,verse, poet}) {
   const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
   const setVerseId = useUserStore((state) => state.setVerseId);
+  const captureViewRef = useRef(null);
   
+  const [imageUri, setImageUri] = useState(null);
   const [isFontLoaded, setIsFontLoaded] = useState(false);
   const [isLoaded] = useFonts({
     test: require("../assets/fonts/urdu-font.ttf"),
@@ -23,10 +28,40 @@ export default function Homepage({verseId,verse, poet}) {
     return null;
   }
 
+  const handleConvert = async () => {
+   
+    try {
+      await captureView();
+    } catch (error) {
+      console.error('Error converting text to image:', error);
+      Alert.alert('Error', 'Failed to convert text to image.');
+    }
+  };
+  const captureView = async () => {
+    try {
+      const uri = await captureRef(captureViewRef, { format: 'png', quality: 1 });
+      setImageUri(uri);
+      saveImageToLibrary(uri);
+    } catch (error) {
+      console.error('Error capturing view:', error);
+      throw error;
+    }
+  };
+
+  const saveImageToLibrary = async (uri) => {
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+    if (status === 'granted') {
+      await MediaLibrary.saveToLibraryAsync(uri);
+      Alert.alert('Success', 'Image saved to library.');
+    } else {
+      Alert.alert('Permission Required', 'Permission to access media library is required to save images.');
+    }
+  };
+
   return (
     
 
-    <View style={styles.container} onLayout={handleOnLayout}>
+    <View ref={captureViewRef}  style={styles.container} onLayout={handleOnLayout}>
       <View style={[styles.box, styles.shadowProp]}>
         <View
           style={{
@@ -90,13 +125,13 @@ export default function Homepage({verseId,verse, poet}) {
 
 
 
-            <View style={styles.actionBtn}>
+            <TouchableOpacity  onPress={handleConvert}  style={styles.actionBtn}>
               <Image
                 style={{ marginHorizontal: 3 }}
                 source={require("../assets/icons/picit.png")}
               />
               <Text>Pic It</Text>
-            </View>
+            </TouchableOpacity>
 
           </View>
         </View>

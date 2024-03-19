@@ -1,9 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Post from "../components/Post"
 import { BackHandler } from 'react-native';
-import { StyleSheet, TextInput,Text, View, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { StyleSheet, Image, TextInput,Text, Alert, View, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import useUserStore from "../store/store";
+import * as ImageManipulator from 'expo-image-manipulator';
+import * as MediaLibrary from 'expo-media-library';
+import { captureRef } from 'react-native-view-shot';
 
 
 export default function Search() {
@@ -11,7 +14,9 @@ export default function Search() {
   const verseId = useUserStore((state) => state.verseId);
 
   const [verse, setVerse] = useState({});
-
+  const [inputText, setInputText] = useState('Test');
+  const [imageUri, setImageUri] = useState(null);
+ 
   useEffect(() => {
     const backAction = () => {
       setIsSingleVerse(false)
@@ -76,17 +81,19 @@ export default function Search() {
   }
   return (
     <ScrollView>
-    <View style={styles.container}>
+    <View style={styles.container} >
       <Text style={styles.subHeading}>Single Verse: {verseId}</Text>
 
-
-      <Post verseId={verse._id} poet={verse.poetName} verse={verse.verse}/>
+<View>
+      <Post  verseId={verse._id} poet={verse.poetName} verse={verse.verse}/>
+  </View>
 
       
  <TouchableOpacity onPress={searchKeyword}>
   <Text>Fetch</Text>
  </TouchableOpacity>
-  
+
+
       <StatusBar style="auto" />
     </View>
 </ScrollView>
