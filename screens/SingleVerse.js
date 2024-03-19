@@ -10,6 +10,8 @@ export default function Search() {
   const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
   const verseId = useUserStore((state) => state.verseId);
 
+  const [verse, setVerse] = useState({});
+
   useEffect(() => {
     const backAction = () => {
       setIsSingleVerse(false)
@@ -64,6 +66,7 @@ export default function Search() {
       console.log(data)
       if (data.type == "success") {
         console.log(data.verse)
+        setVerse(data.verse)
       }
     })
     .catch(error => {
@@ -75,7 +78,10 @@ export default function Search() {
     <ScrollView>
     <View style={styles.container}>
       <Text style={styles.subHeading}>Single Verse: {verseId}</Text>
- 
+
+
+      <Post verseId={verse._id} poet={verse.poetName} verse={verse.verse}/>
+
       
  <TouchableOpacity onPress={searchKeyword}>
   <Text>Fetch</Text>
