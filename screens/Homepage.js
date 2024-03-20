@@ -133,7 +133,7 @@ export default function Homepage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#162447",
+    backgroundColor: "#202632",
     alignItems: "center",
     justifyContent: "center",
   },

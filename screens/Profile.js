@@ -111,7 +111,7 @@ export default function Profile({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#202632',
     alignItems: 'center',
   },
   settingsContainer: {

@@ -1,10 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect, useRef } from 'react';
-import Post from "../components/Post"
+import SinglePost from "../components/SinglePost"
 import { BackHandler } from 'react-native';
 import { StyleSheet, Image, TextInput,Text, Alert, View, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import useUserStore from "../store/store";
-import * as ImageManipulator from 'expo-image-manipulator';
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
 
@@ -18,6 +17,7 @@ export default function Search() {
   const [imageUri, setImageUri] = useState(null);
  
   useEffect(() => {
+    searchKeyword();
     const backAction = () => {
       setIsSingleVerse(false)
       // Handle your back button press logic here
@@ -82,16 +82,15 @@ export default function Search() {
   return (
     <ScrollView>
     <View style={styles.container} >
-      <Text style={styles.subHeading}>Single Verse: {verseId}</Text>
 
 <View>
-      <Post  verseId={verse._id} poet={verse.poetName} verse={verse.verse}/>
+      <SinglePost  verseId={verse._id} poet={verse.poetName} verse={verse.verse}/>
   </View>
 
       
- <TouchableOpacity onPress={searchKeyword}>
+ {/* <TouchableOpacity onPress={searchKeyword}>
   <Text>Fetch</Text>
- </TouchableOpacity>
+ </TouchableOpacity> */}
 
 
       <StatusBar style="auto" />

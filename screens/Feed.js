@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     paddingVertical: 50,
     flex: 1,
     backgroundColor: '#fff',
-    backgroundColor: "#162447",
+    backgroundColor: "#202632",
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -70,9 +70,12 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 5,
-    backgroundColor: "orange",
+    padding: 8,
+    backgroundColor: "#804fcb",
     color: "white",
-    padding: 5
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 20
   },
   
   
@@ -82,6 +85,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 30,
     fontWeight: "bold"
+  },
+  normalText: {
+    color: "white"
   }
 
 });

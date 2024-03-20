@@ -23,7 +23,7 @@ return (
                    
                     elevation: 0,
                 
-                    backgroundColor: "#F95738",
+                    backgroundColor: "#562998",
                     height: 60,
                     ...styles.shadow
                 }
@@ -40,10 +40,10 @@ return (
 
                     width: 25,
                     height: 25,
-                    tintColor: focused ? "white": "#162447"
+                    tintColor: focused ? "#f4f7f7": "#dabad8"
                 }}/>
                 <Text style={{
-                    color: focused ? "white": "#162447"
+                    color: focused ? "#f4f7f7": "#dabad8"
                 }}>Home</Text>
             </View>
            )
@@ -63,10 +63,10 @@ return (
 
                     width: 26,
                     height: 26,
-                    tintColor: focused ? "white": "#162447"
+                    tintColor: focused ? "#f4f7f7": "#dabad8"
                 }}/>
                 <Text style={{
-                    color: focused ? "white": "#162447"
+                    color: focused ? "#f4f7f7": "#dabad8"
                 }}>Feed</Text>
             </View>
            )
@@ -86,10 +86,10 @@ return (
 
                     width: 26,
                     height: 26,
-                    tintColor: focused ? "white": "#162447"
+                    tintColor: focused ? "#f4f7f7": "#dabad8"
                 }}/>
                 <Text style={{
-                    color: focused ? "white": "#162447"
+                    color: focused ? "#f4f7f7": "#dabad8"
                 }}>Search</Text>
             </View>
            )
@@ -107,7 +107,7 @@ return (
 
                             width: 26,
                             height: 26,
-                            tintColor: focused ? "white": "#162447"
+                            tintColor: focused ? "#f4f7f7": "#dabad8"
                         }}/>
                     ):(
                         <Image source={require("../assets/icons/profile.png")}
@@ -115,13 +115,13 @@ return (
 
                             width: 26,
                             height: 26,
-                            tintColor: focused ? "white": "#162447"
+                            tintColor: focused ? "#f4f7f7": "#dabad8"
                         }}/>
                     )
                 }
                
                 <Text style={{
-                    color: focused ? "white": "#162447"
+                    color: focused ? "#f4f7f7": "#dabad8"
                 }}>Profile</Text>
             </View>
            )

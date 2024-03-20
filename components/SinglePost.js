@@ -15,6 +15,9 @@ export default function Homepage({verseId,verse, poet}) {
   const [isLoaded] = useFonts({
     test: require("../assets/fonts/urdu-font.ttf"),
   });
+  const [watermarkFont] = useFonts({
+    english: require("../assets/fonts/matla.ttf"),
+  });
   useEffect(() => {}, []);
   const handleOnLayout = useCallback(async () => {
     if (isLoaded) {
@@ -83,6 +86,14 @@ export default function Homepage({verseId,verse, poet}) {
         </Text>
         <Text style={{ fontFamily: "test", fontSize: 22 }}>
           {verse?.split("\\n")[1]}
+        </Text>
+
+        <Text style={{
+          marginBottom: 5,
+          fontFamily: "english",
+          fontSize: 20
+        }}>
+          Made with Matla
         </Text>
 
         <View
@@ -161,11 +172,11 @@ const styles = StyleSheet.create({
     shadowRadius: 16.0,
     elevation: 24,
     width: 300,
-    height: 200,
+    height: 240,
 
     backgroundColor: "#F8F4E3",
     textAlign: "center",
-    padding: 20,
+    padding: 10,
     borderRadius: 20,
     display: "flex",
     justifyContent: "center",
@@ -181,7 +192,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     backgroundColor: "#F8F4E3",
     textAlign: "center",
-    padding: 20,
+    padding:10,
     borderRadius: 20,
     display: "flex",
     justifyContent: "center",
@@ -194,7 +205,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   poetryOfDay: {
-    marginVertical: 10,
+    marginVertical:5,
     fontSize: 18,
     fontWeight: "bold",
     color: "white",

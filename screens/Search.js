@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     minHeight: 800,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "#162447",
+    backgroundColor: "#202632"
 
   },
   input: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 5,
-    backgroundColor: "orange",
+    backgroundColor: "#804fcb",
     color: "white",
     paddingVertical: 10,
     paddingHorizontal: 30,
@@ -123,6 +123,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     marginVertical: 20
+  },
+  normalText: {
+    color: "white"
   }
 
 });
