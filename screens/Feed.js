@@ -3,22 +3,51 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-nati
 import Post from "../components/Post"
 import { useEffect, useState } from 'react';
 export default function Feed() {
-  const [verses, setVerses] = useState([])
-  const getVerses = () => {
-    
-    console.log("Wait");
-    fetch("http://192.168.56.1:3000/api/verses/get-verses-infinite")
+  
+  const [isLoading, setIsLoading] = useState(true);
+  const [isNewLoading, setIsNewLoading] = useState(true);
 
-      .then(res => res.json())
-      .then(data => {
-       console.log(data.verses)
-        if (data.type == "success") {
-         setVerses(data.verses)
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      })
+  const [allPosts, setAllPosts] = useState([]);
+
+  const [isMore, setIsMore] = useState(true)
+
+  const [page, setPage] = useState(1);
+  const [verses, setVerses] = useState([]);
+  const [totalPosts, setTotalPosts] = useState(0);
+  const [currentPosts, setCurrentPosts] = useState(0);
+  const getVerses = async() => {
+    setIsNewLoading(true)
+    console.log("Wait");
+
+   
+    fetch(`http://192.168.56.1:3000/api/verses/get-verses-infinite`,{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({page: page})
+    })
+    .then(res => res.json())
+    .then(data => {
+      
+      // console.log(`Expression: ${allPosts.length+data.posts.length} - ${totalPosts}`)
+      setTotalPosts(data.verseLength)
+      let len = (data.verses).length;
+      setCurrentPosts(currentPosts+len)
+
+    setAllPosts((prevPosts) => [...prevPosts, ...data.verses])
+
+    if (allPosts.length+data.verses.length == totalPosts) {
+      setIsMore(false)
+    }
+    else {
+      setIsMore(true)
+    }
+    setPage(page + 1);
+
+    setIsLoading(false)
+    setIsNewLoading(false)
+    })
   }
 
 
@@ -41,10 +70,35 @@ export default function Feed() {
     </TouchableOpacity>
      </View>
       {
-        verses.map((verse, index)=> {
-          return <Post verseId={verse._id} poet={verse.poetName} verse={verse.verse} key={index}/>
+        allPosts.map((verse, index)=> {
+          return <Post likes={verse.likes} verseId={verse._id} poet={verse.poetName} verse={verse.verse} key={index}/>
         })
       }
+
+      
+    {
+      isNewLoading?(
+<Text style={styles.normalText} >Loading</Text>
+      ):null
+    }
+
+    {
+  isLoading==false&&allPosts.length!==totalPosts?(
+    <TouchableOpacity onPress={getVerses} style={[styles.button, {
+      marginVertical: 50
+    }]} ><Text style={styles.normalText}>Load More...</Text></TouchableOpacity>
+   
+  ):null
+}
+
+ {
+   isLoading==false&&allPosts.length==totalPosts?(
+    <>
+     <Text style={{marginVertical:50, color: "white"}}>You have seen all verses 👏</Text>
+     
+    </>
+     ):null
+    }
       <StatusBar style="auto" />
     </View>
 </ScrollView>

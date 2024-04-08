@@ -5,17 +5,25 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import useUserStore from "../store/store";
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
-export default function Homepage({verseId,verse, poet}) {
+export default function Homepage({likes,verseId,verse, poet}) {
   const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
   const setVerseId = useUserStore((state) => state.setVerseId);
   const captureViewRef = useRef(null);
+
+  const {username} = useUserStore();
+
+  const [isLiked, setIsLiked] = useState(false);
+  const [totalLikes, setTotalLikes] = useState(0);
   
   const [imageUri, setImageUri] = useState(null);
   const [isFontLoaded, setIsFontLoaded] = useState(false);
   const [isLoaded] = useFonts({
     test: require("../assets/fonts/urdu-font.ttf"),
   });
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setIsLiked(likes.includes(username));
+    setTotalLikes(likes.length)
+  }, []);
   const handleOnLayout = useCallback(async () => {
     if (isLoaded) {
       console.log("Font Loaded");
@@ -25,6 +33,34 @@ export default function Homepage({verseId,verse, poet}) {
   if (!isLoaded) {
     console.log("ERRROR");
     return null;
+  }
+
+  const handleLike = () => {
+    const data = {
+      verseId: verseId,
+      likeUsername: username,
+    };
+    fetch(`http://192.168.56.1:3000/api/likes/handle-like`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+   
+          setIsLiked(data.liked);
+
+          if (data.liked) {
+            setTotalLikes(totalLikes+1)
+          }
+          else {
+            setTotalLikes(totalLikes-1)
+          }
+        
+        
+      });
   }
 
   const handleConvert = async () => {
@@ -102,16 +138,20 @@ export default function Homepage({verseId,verse, poet}) {
               marginVertical: 10,
             }}
             >
-            <View style={styles.actionBtn}>
+            <TouchableOpacity onPress={handleLike} style={styles.actionBtn}>
               <Image
-                style={{ marginHorizontal: 3 }}
+                style={{
+                  marginHorizontal: 3
+                }}
                 source={require("../assets/icons/like.png")}
               />
-              <Text>Like</Text>
-            </View>
+              <Text style={{
+                color: isLiked?"#562998":"black"
+              }}>Like ({totalLikes})</Text>
+            </TouchableOpacity>
             
 
-            <TouchableOpacity onPress={()=>{
+            {/* <TouchableOpacity onPress={()=>{
               setVerseId(verseId);
               setIsSingleVerse(true);
             }} style={styles.actionBtn}>
@@ -120,7 +160,7 @@ export default function Homepage({verseId,verse, poet}) {
                 source={require("../assets/icons/explore.png")}
               />
               <Text>Explore</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
 
 
