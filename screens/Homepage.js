@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, View, TouchableOpacity, Alert } from "react-na
 import { useFonts } from "expo-font";
 import { useCallback, useEffect, useState } from "react";
 import useUserStore from '../store/store';
+import CarouselComponent from "../components/Carousel";
 
 export default function Homepage() {
   const [dailyVerse, setDailyVerse] = useState({});
@@ -124,6 +125,13 @@ export default function Homepage() {
           <Text style={styles.poetOfDay}>{dailyVerse.poetName}</Text>
         </View>
       </View>
+
+      <Text style={[styles.subHeading, {
+        marginVertical: 20
+      }]}>Poet Spotlight</Text>
+
+
+      <CarouselComponent/>
 
       <StatusBar style="auto" />
     </View>

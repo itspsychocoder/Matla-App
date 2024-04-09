@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import { NavigationContainer } from "@react-navigation/native";
 import Tabs from "./navigation/tabs";
 import SeparatePages from "./navigation/separatePages";
@@ -12,7 +13,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {createStackNavigator} from "@react-navigation/stack"
 // import { JWT_TOKEN } from '@env';
 
-import 'react-native-gesture-handler';
 export default function App() {
   const Stack = createStackNavigator();
   const JWT_TOKEN = "matla-secret";
