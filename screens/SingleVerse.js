@@ -6,15 +6,19 @@ import { StyleSheet, Image, TextInput,Text, Alert, View, TouchableOpacity, Scrol
 import useUserStore from "../store/store";
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
+import { useFonts } from 'expo-font';
 
 
 export default function Search() {
   const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
-  const verseId = useUserStore((state) => state.verseId);
+  const poetId = useUserStore((state) => state.poetId);
 
   const [verse, setVerse] = useState({});
   const [inputText, setInputText] = useState('Test');
   const [imageUri, setImageUri] = useState(null);
+  const [isLoaded] = useFonts({
+    test: require("../assets/fonts/urdu-font.ttf"),
+  });
  
   useEffect(() => {
     searchKeyword();
@@ -48,21 +52,22 @@ export default function Search() {
 
 
 
-  const [verses, setVerses] = useState([]);
+  const [poet, setPoet] = useState({});
+  const [verses, setVerses] = useState(0)
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false)
 
 
   const searchKeyword = async() => {
     setIsLoading(true);
-    console.log("Finding Single Verse", verseId);
-    fetch("http://192.168.56.1:3000/api/verses/get-single-verse", {
+    console.log("Finding Single Verse", poetId);
+    fetch("http://192.168.56.1:3000/api/poets/get-single-poet", {
       method: "POST",
       
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ verseId: verseId })
+      body: JSON.stringify({ poetId: poetId })
       
     })
     
@@ -70,8 +75,9 @@ export default function Search() {
     .then(data => {
       console.log(data)
       if (data.type == "success") {
-        console.log(data.verse)
-        setVerse(data.verse)
+        console.log(data.poet)
+        setPoet(data.poet)
+        setVerses(data.verses)
       }
     })
     .catch(error => {
@@ -83,14 +89,69 @@ export default function Search() {
     <ScrollView>
     <View style={styles.container} >
 
-<View>
-      <SinglePost  verseId={verse._id} poet={verse.poetName} verse={verse.verse}/>
+<View style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+  <View >
+
+  <Image
+   style={styles.avatar}
+  source={{uri: poet.avatar}}/>
+  </View>
+  
+
+ 
+
+  <View style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+
+  <Text style={{color: "white",fontFamily: 'test',fontSize: 35, marginHorizontal: 10}}>
+
+      {poet.poetName}
+  </Text>
+
+  
+  <Image
+   style={styles.tick}
+  source={require("../assets/icons/tick-icon.png")}/>
+  </View>
+
+  <Text style={styles.bio}>
+  {poet.bio}
+  </Text>
   </View>
 
       
  {/* <TouchableOpacity onPress={searchKeyword}>
   <Text>Fetch</Text>
  </TouchableOpacity> */}
+
+ <View style={{display: "flex", flexDirection: "row"}}>
+  <View style={styles.card}>
+    <Text style={styles.number}>20</Text>
+    <Text style={styles.title}>Followers</Text>
+  </View>
+  <View style={styles.card}>
+  <Text style={styles.number}>{verses}</Text>
+    <Text style={styles.title}>Verses</Text>
+  </View>
+ </View>
+
+ <TouchableOpacity style={styles.followBtn}>
+  <Text style={{fontSize: 20, color: "white"}}>
+  Follow
+  </Text>
+ </TouchableOpacity>
+
+ <Text style={styles.heading}>Poet Info</Text>
+
+ <View style={{display: "flex", flexDirection: "row"}}>
+  <View style={styles.miniCard}>
+    <Text style={styles.miniNumber}>{poet.dateOfBirth}</Text>
+    <Text style={styles.miniTitle}>Date of Birth</Text>
+  </View>
+  <View style={styles.miniCard}>
+  <Text style={styles.miniNumber}>{poet.location}</Text>
+    <Text style={styles.miniTitle}>Location</Text>
+  </View>
+ </View>
 
 
       <StatusBar style="auto" />
@@ -100,6 +161,70 @@ export default function Search() {
 }
 
 const styles = StyleSheet.create({
+  bio: {
+    color: "white",
+    fontSize: 18,
+    marginVertical:10,
+    fontFamily: "test",
+    textAlign: "center"
+  },
+  heading: {
+
+    fontSize: 25,
+    color: "white",
+    marginVertical: 20
+  },
+  card: {
+    width: 150,
+    height: 150,
+    backgroundColor: "white",
+    marginHorizontal: 10,
+    borderRadius: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  miniCard: {
+    width: 150,
+    height: 150,
+    backgroundColor: "white",
+    marginHorizontal: 10,
+    borderRadius: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  number: {
+    fontSize: 50,
+    fontWeight: "bold"
+  },
+  miniNumber: {
+    fontSize: 30,
+    fontWeight: "bold"
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold"
+
+  },
+  miniTitle: {
+    fontSize: 15,
+    fontWeight: "bold"
+
+  },
+  followBtn: {
+    marginVertical: 20,
+    color: "white",
+    fontSize: 20,
+    backgroundColor: "#562998",
+    width: "80%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 10,
+    borderRadius: 20
+
+  },
   container: {
     paddingVertical: 70,
 
@@ -119,6 +244,17 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "white",
     borderRadius: 10,
+  },
+  avatar: {
+    width: 150,
+    height: 150,
+    borderRadius: 70,
+    marginHorizontal: 10,
+  },
+  tick: {
+    width: 30,
+    height: 30,
+    marginHorizontal: 10,
   },
   button: {
     marginHorizontal: 5,

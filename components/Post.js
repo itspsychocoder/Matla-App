@@ -5,9 +5,9 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import useUserStore from "../store/store";
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
-export default function Homepage({likes,verseId,verse, poet}) {
+export default function Homepage({poetData, likes,verseId,verse, poet}) {
   const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
-  const setVerseId = useUserStore((state) => state.setVerseId);
+  const setPoetId = useUserStore((state) => state.setPoetId);
   const captureViewRef = useRef(null);
 
   const {username} = useUserStore();
@@ -98,7 +98,12 @@ export default function Homepage({likes,verseId,verse, poet}) {
 
     <View ref={captureViewRef}  style={styles.container} onLayout={handleOnLayout}>
       <View style={[styles.box, styles.shadowProp]}>
-        <View
+        <TouchableOpacity
+        onPress={()=>{
+          Alert.alert(`ID: ${poetData._id}`)
+          setPoetId(poetData._id);
+          setIsSingleVerse(true);
+        }}
           style={{
             display: "flex",
             flexDirection: "row",
@@ -108,12 +113,12 @@ export default function Homepage({likes,verseId,verse, poet}) {
           >
           <Image
             style={styles.avatar}
-            source={require("../assets/faiz.jpg")}
+            source={{uri: poetData.avatar}}
             alt="Profile Image"
             />
 
           <Text style={styles.poetOfDay}>@{poet}</Text>
-        </View>
+        </TouchableOpacity>
         <Text style={{ fontFamily: "test", fontSize: 22 }}>
           {verse?.split("\\n")[0]}
         </Text>

@@ -32,7 +32,7 @@ export default function Feed() {
       
       // console.log(`Expression: ${allPosts.length+data.posts.length} - ${totalPosts}`)
       setTotalPosts(data.verseLength)
-      let len = (data.verses).length;
+      let len = data.verses.length;
       setCurrentPosts(currentPosts+len)
 
     setAllPosts((prevPosts) => [...prevPosts, ...data.verses])
@@ -71,7 +71,7 @@ export default function Feed() {
      </View>
       {
         allPosts.map((verse, index)=> {
-          return <Post likes={verse.likes} verseId={verse._id} poet={verse.poetName} verse={verse.verse} key={index}/>
+          return <Post poetData={verse.poet} likes={verse.likes} verseId={verse._id} poet={verse.poetName} verse={verse.verse} key={index}/>
         })
       }
 

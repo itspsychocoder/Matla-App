@@ -57,6 +57,7 @@ export default function Homepage() {
         
         console.log(data.verse)
         if (data.type == "success") {
+          console.log(data.verse)
           setDailyVerse(data.verse)
        
           
@@ -118,7 +119,7 @@ export default function Homepage() {
         >
           <Image
             style={styles.avatar}
-            source={require("../assets/faiz.jpg")}
+            source={{uri: dailyVerse.avatar}}
             alt="Profile Image"
           />
 

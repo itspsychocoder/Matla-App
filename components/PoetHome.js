@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet, Image, Text, View } from 'react-native';
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useFonts } from "expo-font";
 
-function PoetHome({poet}) {
+function PoetHome({poet, avatar}) {
     const [isLoaded] = useFonts({
         test: require("../assets/fonts/urdu-font.ttf"),
       });
@@ -31,7 +31,7 @@ function PoetHome({poet}) {
         <View style={styles.box}>
            <Image
             style={styles.avatar}
-            source={require("../assets/faiz.jpg")}
+            source={{uri: avatar}}
             alt="Profile Image"
             />
             <Text style={[styles.poet, { fontFamily: "test", fontSize: 22 }]}>
