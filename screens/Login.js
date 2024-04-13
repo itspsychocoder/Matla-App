@@ -12,13 +12,15 @@ export default function Login() {
   const avatar = useUserStore((state) => state.avatar);
   const username = useUserStore((state) => state.username);
   const isLogin = useUserStore((state) => state.isLogin);
-  const setUsername = useUserStore((state) => state.setUsername);
   const setIsLogin = useUserStore((state) => state.setIsLogin);
+
+  const setUsername = useUserStore((state) => state.setUsername);
+  const setFirstName = useUserStore((state) => state.setFirstName);
+  const setLastName = useUserStore((state) => state.setLastName);
   const setTotalFollowers = useUserStore((state) => state.setTotalFollowers);
   const setTotalFollowing = useUserStore((state) => state.setTotalFollowing);
   const setAvatar = useUserStore((state) => state.setAvatar);
-
-
+  const setUserId = useUserStore((state) => state.setUserId);
 
   const navigation = useNavigation();
 
@@ -44,10 +46,19 @@ export default function Login() {
       .then(res => res.json())
       .then(data => {
         Alert.alert(data.message)
-        console.log(data.message)
+        console.log(data)
+        Alert.alert(data.userId)
         if (data.type == "success") {
           setUsername(email);
           setIsLogin(true);
+          setFirstName(data.firstName);
+          setLastName(data.lastName);
+          setUsername(data.username)
+          setTotalFollowers(data.totalFollowers);
+          setTotalFollowing(data.totalFollowing);
+          setAvatar(data.avatar);
+          setUserId(data.userId);
+          Alert.alert(data.userId)
           AsyncStorage.setItem("token", data.token);
         }
       })

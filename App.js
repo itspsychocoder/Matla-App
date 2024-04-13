@@ -20,11 +20,13 @@ export default function App() {
   const setIsLogin = useUserStore((state) => state.setIsLogin);
   const username = useUserStore((state) => state.username);
   const setEmail = useUserStore((state) => state.setEmail);
+  const setUsername = useUserStore((state) => state.setUsername);
   const setFirstName = useUserStore((state) => state.setFirstName);
   const setLastName = useUserStore((state) => state.setLastName);
   const setTotalFollowers = useUserStore((state) => state.setTotalFollowers);
   const setTotalFollowing = useUserStore((state) => state.setTotalFollowing);
   const setAvatar = useUserStore((state) => state.setAvatar);
+  const setUserId = useUserStore((state) => state.setUserId);
   const firstName = useUserStore((state) => state.firstName);
   const lastName = useUserStore((state) => state.lastName);
   const isSingleVerse = useUserStore((state) => state.isSingleVerse);
@@ -38,16 +40,23 @@ const Tab = createBottomTabNavigator();
 
       try {
         const data = JWT.decode(token, JWT_TOKEN);
+        
         console.log(data);
         if (data) {
           setEmail(data.email);
           setFirstName(data.firstName);
           setLastName(data.lastName);
+          setUsername(data.username)
           setTotalFollowers(data.totalFollowers);
           setTotalFollowing(data.totalFollowing);
           setAvatar(data.avatar);
+          setUserId(data.userId);
+          setIsLogin(true);
         }
-        setIsLogin(true);
+        else {
+          
+          setIsLogin(false);
+        }
       } catch (error) {
         console.log(error);
       }

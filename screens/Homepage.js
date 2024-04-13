@@ -6,7 +6,7 @@ import useUserStore from '../store/store';
 import CarouselComponent from "../components/Carousel";
 
 export default function Homepage() {
-  const [dailyVerse, setDailyVerse] = useState({});
+  const [dailyVerse, setDailyVerse] = useState({poet: {}});
   const username = useUserStore((state) => state.username);
   const setEmail = useUserStore((state) => state.setEmail);
   const setFirstName = useUserStore((state) => state.setFirstName);
@@ -119,7 +119,7 @@ export default function Homepage() {
         >
           <Image
             style={styles.avatar}
-            source={{uri: dailyVerse.avatar}}
+            source={{uri: dailyVerse.poet.avatar}}
             alt="Profile Image"
           />
 

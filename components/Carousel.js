@@ -31,7 +31,9 @@ function CarouselComponent() {
                 autoPlay={true}
                 data={allPoets}
                 scrollAnimationDuration={1000}
-                onSnapToItem={(index) => console.log('current index:', index)}
+                onSnapToItem={(index) => {
+                    // console.log('current index:', index)
+                }}
                 renderItem={({ index }) => (
                    <PoetHome avatar={allPoets[index].avatar} poet={allPoets[index].poetName}/>
                 )}

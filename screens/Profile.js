@@ -1,13 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useUserStore from '../store/store';
 
+
+import { AntDesign } from '@expo/vector-icons';
+
 export default function Profile({navigation}) {
   const setIsLogin = useUserStore((state) => state.setIsLogin);
   const firstName = useUserStore((state) => state.firstName);
+  const userId = useUserStore((state) => state.userId);
   const lastName = useUserStore((state) => state.lastName);
   const username = useUserStore((state) => state.username);
   const avatar = useUserStore((state) => state.avatar);
@@ -25,7 +28,7 @@ export default function Profile({navigation}) {
      <Image style={styles.avatar} source={require("../assets/profile.jpg")} alt='Profile Image'/>
      <View style={styles.dataDiv}>
       <Text style={styles.subHeading}>{firstName} {lastName}</Text>
-      <Text>@{username}</Text>
+      <Text style={styles.username}>@{username}</Text>
      </View>
      </View>
 
@@ -57,15 +60,17 @@ export default function Profile({navigation}) {
 
    <View style={styles.settingsContainer}>
    <View style={styles.flexDiv}>
-      <Text style={styles.icon}>        <Image source={require("../assets/icons/heart.png")}/>
-      </Text>
+    <View style={{marginHorizontal: 10}}>
+    <AntDesign name="heart" size={18} color="white" />
+    </View>
+      
       <Text style={styles.normalText}>
         
      Add to Favourites
       </Text>
     </View>
 
-    
+{/*     
     <View style={styles.flexDiv}>
       <Text style={styles.icon}>        <Image source={require("../assets/icons/certificate.png")}/>
       </Text>
@@ -73,7 +78,7 @@ export default function Profile({navigation}) {
         
     Badges
       </Text>
-    </View>
+    </View> */}
 
 
 
@@ -82,25 +87,31 @@ export default function Profile({navigation}) {
 
   <View style={styles.settingsContainer}>
 
-    <View  style={styles.flexDiv}>
+    {/* <View  style={styles.flexDiv}>
       <Text style={styles.icon}>        <Image source={require("../assets/icons/display.png")}/>
       </Text>
       <Text style={styles.normalText}>
         
     Display Settings
       </Text>
-    </View>
+    </View> */}
 
       
-    <TouchableOpacity onPress={()=>navigation.navigate("SingleVerse")} style={styles.flexDiv}>
-      <Text style={styles.icon}>        <Image source={require("../assets/icons/logout.png")}/>
-      </Text>
+    <TouchableOpacity onPress={logout} style={styles.flexDiv}>
+      <View style={{marginHorizontal: 10}}>
+
+    <AntDesign name="logout" size={18} color="white" />
+      </View>
       <Text style={styles.normalText}>
         
     Logout
       </Text>
     </TouchableOpacity>
 
+  </View>
+
+  <View>
+    <Text style={{color: "white"}}>User Id: {userId}</Text>
   </View>
       
       <StatusBar style="auto" />
@@ -112,6 +123,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#202632',
+    justifyContent: "center",
     alignItems: 'center',
   },
   settingsContainer: {
@@ -131,13 +143,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 10
   },
   subHeading: {
-    color: "#162447",
+    color: "white",
     fontSize: 18,
     fontWeight: "bold",
     marginVertical: 10
   },
   heading: {
-    color: "#162447",
+    color: "white",
     fontSize: 25,
     marginVertical: 5,
     fontWeight: "bold"
@@ -161,7 +173,7 @@ const styles = StyleSheet.create({
     marginVertical: 20
   },
   cardHeading: {
-    color: "#F8F4E3",
+    color: "white",
     fontSize: 15,
     fontWeight: "bold"
   },
@@ -172,10 +184,14 @@ const styles = StyleSheet.create({
   },
   normalText: {
     fontSize: 15,
-    marginVertical: 5
+    marginVertical: 5,
+    color: "white"
   },
   icon: {
     marginHorizontal: 2
+  },
+  username: {
+    color: "white"
   }
 
 });

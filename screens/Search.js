@@ -77,7 +77,7 @@ export default function Search() {
 
    {
         verses.map((verse, index)=> {
-          return <Post poet={verse.poetName} verse={verse.verse} key={index}/>
+          return  <Post poetData={verse.poet} likes={verse.likes} verseId={verse._id} poet={verse.poetName} verse={verse.verse} key={index}/>
         })
       }
       <StatusBar style="auto" />
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   subHeading: {
-    color: "#162447",
-    fontSize: 18
+    color: "white",
+    fontSize:25
   },
   noVerseFound: {
     color: "white",

@@ -3,7 +3,8 @@ import { create } from 'zustand';
 const useUserStore = create((set) => ({
   firstName: "",
   lastName: "",
-  username: "psychoo",
+  username: "",
+  userId: "",
   totalFollowers: 0,
   totalFollowing: 0,
   email: "",
@@ -12,6 +13,7 @@ const useUserStore = create((set) => ({
   isSingleVerse: false,
   poetId: "",
   setPoetId: (id) => set({ poetId:id }),
+  setUserId: (id) => set({ userId:id }),
   setTotalFollowers: (number) => set({ totalFollowers:number }),
   setTotalFollowing: (number) => set({ totalFollowing:number }),
   setUsername: (newUsername) => set({ username:newUsername }),

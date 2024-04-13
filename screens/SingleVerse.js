@@ -11,6 +11,7 @@ import { useFonts } from 'expo-font';
 
 export default function Search() {
   const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
+  const userId = useUserStore((state) => state.userId);
   const poetId = useUserStore((state) => state.poetId);
 
   const [verse, setVerse] = useState({});
@@ -56,7 +57,34 @@ export default function Search() {
   const [verses, setVerses] = useState(0)
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false)
+  const [isFollow, setIsFollow] = useState(false)
+  const followPoet = async() => {
+   console.log(userId, poetId);
 
+    setIsLoading(true);
+    fetch("http://192.168.56.1:3000/api/follow/follow-poet", {
+      method: "POST",
+      
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ poetId: poetId, userId: userId })
+      
+    })
+    
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+     Alert.alert(data.message);
+     if(data.type == "success") {
+      setIsFollow(true)
+     }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+    setIsLoading(false);
+  }
 
   const searchKeyword = async() => {
     setIsLoading(true);
@@ -77,7 +105,8 @@ export default function Search() {
       if (data.type == "success") {
         console.log(data.poet)
         setPoet(data.poet)
-        setVerses(data.verses)
+        setVerses(data.verses);
+        setIsFollow(data.poet.followers.includes(userId))
       }
     })
     .catch(error => {
@@ -125,7 +154,7 @@ export default function Search() {
 
  <View style={{display: "flex", flexDirection: "row"}}>
   <View style={styles.card}>
-    <Text style={styles.number}>20</Text>
+    <Text style={styles.number}>{poet.followers?.length}</Text>
     <Text style={styles.title}>Followers</Text>
   </View>
   <View style={styles.card}>
@@ -134,11 +163,26 @@ export default function Search() {
   </View>
  </View>
 
- <TouchableOpacity style={styles.followBtn}>
+
+   {isFollow?(
+      <TouchableOpacity onPress={followPoet} style={styles.followBtn}>
+      <Text style={{fontSize: 20, color: "white"}}>
+      Unfollow
+      </Text>
+     </TouchableOpacity>
+ 
+    ):(
+      <TouchableOpacity onPress={followPoet} style={styles.followBtn}>
   <Text style={{fontSize: 20, color: "white"}}>
   Follow
   </Text>
  </TouchableOpacity>
+    )
+   }
+
+ <Text>
+
+  </Text>
 
  <Text style={styles.heading}>Poet Info</Text>
 
