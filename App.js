@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import JWT from 'expo-jwt';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {createStackNavigator} from "@react-navigation/stack"
+import SplashScreen from './components/SplashScreen';
 // import { JWT_TOKEN } from '@env';
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
   const firstName = useUserStore((state) => state.firstName);
   const lastName = useUserStore((state) => state.lastName);
   const isSingleVerse = useUserStore((state) => state.isSingleVerse);
+  const [isSplash, setIsSplash] = useState(true)
 const Tab = createBottomTabNavigator();
 
   useEffect(() => {
@@ -63,18 +65,31 @@ const Tab = createBottomTabNavigator();
     };
 
     checkToken();
+
+    setTimeout(() => {
+      setIsSplash(false)
+    }, 5000);
   }, []);
   return (
-    <NavigationContainer>
-       {
-      isLogin?isSingleVerse?<SeparatePages/>:<Tabs/>:<Auth/>
+    <>
+    {
+      isSplash?(
+        <SplashScreen/>
+      ):(
+        <NavigationContainer>
+        {
+          isLogin?isSingleVerse?<SeparatePages/>:<Tabs/>:<Auth/>
+         }
+ 
+ 
+     
+ 
+       
+     </NavigationContainer>
+         
+      )
     }
-
-
-    
-
-      
-    </NavigationContainer>
+    </>
   );
 }
 

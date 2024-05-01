@@ -7,7 +7,7 @@ import useUserStore from "../store/store";
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
 import { useFonts } from 'expo-font';
-
+import Post from "../components/Post"
 
 export default function Search() {
   const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
@@ -17,12 +17,63 @@ export default function Search() {
   const [verse, setVerse] = useState({});
   const [inputText, setInputText] = useState('Test');
   const [imageUri, setImageUri] = useState(null);
+
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isNewLoading, setIsNewLoading] = useState(true);
+
+  const [allPosts, setAllPosts] = useState([]);
+
+  const [isMore, setIsMore] = useState(true)
+
+  const [page, setPage] = useState(1);
+  const [verses, setVerses] = useState([]);
+  const [totalPosts, setTotalPosts] = useState(0);
+  const [currentPosts, setCurrentPosts] = useState(0);
   const [isLoaded] = useFonts({
     test: require("../assets/fonts/urdu-font.ttf"),
   });
- 
+  const getVerses = async() => {
+    setIsNewLoading(true)
+    console.log("Wait");
+
+   
+    fetch(`http://192.168.56.1:3000/api/verses/get-poet-verses-infinite`,{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({page: page, poetId: poetId})
+    })
+    .then(res => res.json())
+    .then(data => {
+      
+      // console.log(`Expression: ${allPosts.length+data.posts.length} - ${totalPosts}`)
+      setTotalPosts(data.verseLength)
+      let len = data.verses.length;
+      setCurrentPosts(currentPosts+len)
+
+    setAllPosts((prevPosts) => [...prevPosts, ...data.verses])
+
+    if (allPosts.length+data.verses.length == totalPosts) {
+      setIsMore(false)
+    }
+    else {
+      setIsMore(true)
+    }
+    setPage(page + 1);
+
+    setIsLoading(false)
+    setIsNewLoading(false)
+    })
+  }
+
+
+  
+  
   useEffect(() => {
     searchKeyword();
+    getVerses();
     const backAction = () => {
       setIsSingleVerse(false)
       // Handle your back button press logic here
@@ -54,9 +105,7 @@ export default function Search() {
 
 
   const [poet, setPoet] = useState({});
-  const [verses, setVerses] = useState(0)
   const [search, setSearch] = useState("");
-  const [isLoading, setIsLoading] = useState(false)
   const [isFollow, setIsFollow] = useState(false)
   const followPoet = async() => {
    console.log(userId, poetId);
@@ -129,17 +178,25 @@ export default function Search() {
 
  
 
-  <View style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+  <View style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
 
-  <Text style={{color: "white",fontFamily: 'test',fontSize: 35, marginHorizontal: 10}}>
+ <View style={{display: "flex", flexDirection: "row", justifyContent: 'center', alignItems: "center"}}>
+ <Text style={{color: "white",fontFamily: 'test',fontSize: 35, marginHorizontal: 10}}>
 
-      {poet.poetName}
-  </Text>
+{poet.poetName}
+</Text>
+
+
+<Image
+style={styles.tick}
+source={require("../assets/icons/tick-icon.png")}/>
+ </View>
+
+  <View>
+  
+  </View>
 
   
-  <Image
-   style={styles.tick}
-  source={require("../assets/icons/tick-icon.png")}/>
   </View>
 
   <Text style={styles.bio}>
@@ -152,19 +209,19 @@ export default function Search() {
   <Text>Fetch</Text>
  </TouchableOpacity> */}
 
- <View style={{display: "flex", flexDirection: "row"}}>
-  <View style={styles.card}>
-    <Text style={styles.number}>{poet.followers?.length}</Text>
-    <Text style={styles.title}>Followers</Text>
+ <View style={{marginHorizontal:10,width: "100%", display: "flex", justifyContent: "space-evenly", alignItems: "center", flexDirection: "row"}}>
+  <View>
+    <Text style={styles.follower}>{poet.followers?.length} Followers</Text>
   </View>
-  <View style={styles.card}>
-  <Text style={styles.number}>{verses}</Text>
-    <Text style={styles.title}>Verses</Text>
-  </View>
- </View>
 
 
-   {isFollow?(
+  <View>
+    <Text style={styles.follower}>{poet.followers?.length} Verses</Text>
+  </View>
+
+
+  <View>
+  {isFollow?(
       <TouchableOpacity onPress={followPoet} style={styles.followBtn}>
       <Text style={{fontSize: 20, color: "white"}}>
       Unfollow
@@ -179,23 +236,43 @@ export default function Search() {
  </TouchableOpacity>
     )
    }
+  </View>
+ </View>
+
+
+ 
 
  <Text>
 
   </Text>
 
- <Text style={styles.heading}>Poet Info</Text>
+ {/* <Text style={styles.heading}>Poet Info</Text> */}
 
- <View style={{display: "flex", flexDirection: "row"}}>
-  <View style={styles.miniCard}>
-    <Text style={styles.miniNumber}>{poet.dateOfBirth}</Text>
-    <Text style={styles.miniTitle}>Date of Birth</Text>
+ <View >
+  <View style={{width: "100%",display: "flex", flexDirection: "row", justifyContent: "space-evenly", alignItems: "center"}}>
+    <Text style={styles.follower}>Date of Birth</Text>
+    <Text style={styles.follower}>{poet.dateOfBirth}</Text>
   </View>
-  <View style={styles.miniCard}>
-  <Text style={styles.miniNumber}>{poet.location}</Text>
-    <Text style={styles.miniTitle}>Location</Text>
+
+
+  <View style={{marginVertical: 20,width: "100%",display: "flex", flexDirection: "row", justifyContent: "space-evenly", alignItems: "center"}}>
+    <Text style={styles.follower}>Location</Text>
+    <Text style={styles.follower}>{poet.dateOfBirth}</Text>
   </View>
+
+  <View style={{width: "100%",display: "flex", flexDirection: "row", justifyContent: "space-evenly", alignItems: "center"}}>
+    <Text style={styles.follower}>Category</Text>
+    <Text style={styles.follower}>{poet.dateOfBirth}</Text>
+  </View>
+
  </View>
+
+
+ {
+        allPosts.map((verse, index)=> {
+          return <Post poetData={verse.poet} likes={verse.likes} verseId={verse._id} poet={verse.poetName} verse={verse.verse} key={index}/>
+        })
+      }
 
 
       <StatusBar style="auto" />
@@ -210,7 +287,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginVertical:10,
     fontFamily: "test",
-    textAlign: "center"
+    textAlign: "center",
+    marginHorizontal:50
   },
   heading: {
 
@@ -261,12 +339,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     backgroundColor: "#562998",
-    width: "80%",
+    width: "140%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 10,
-    borderRadius: 20
+    borderRadius: 10
 
   },
   container: {
@@ -315,6 +393,10 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     marginVertical: 20
+  },
+  follower: {
+    fontSize: 22,
+    color: "white"
   }
 
 });
