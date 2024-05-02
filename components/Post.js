@@ -10,7 +10,8 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
   const setPoetId = useUserStore((state) => state.setPoetId);
   const captureViewRef = useRef(null);
 
-  const {username} = useUserStore();
+  const {username, userId} = useUserStore();
+ 
 
   const [isLiked, setIsLiked] = useState(false);
   const [totalLikes, setTotalLikes] = useState(0);
@@ -35,12 +36,32 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
     return null;
   }
 
+  const saveVerse = () => {
+    const data = {
+      verse: verseId,
+      username: userId,
+    };
+    console.log(data)
+
+    fetch(`https://poetry-app-admin-panel.vercel.app/api/bookmarks/add-bookmark`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        Alert.alert(data.message)      
+      });
+  }
+
   const handleLike = () => {
     const data = {
       verseId: verseId,
       likeUsername: username,
     };
-    fetch(`http://192.168.56.1:3000/api/likes/handle-like`, {
+    fetch(`https://poetry-app-admin-panel.vercel.app/api/likes/handle-like`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -156,16 +177,13 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
             </TouchableOpacity>
             
 
-            {/* <TouchableOpacity onPress={()=>{
-              setVerseId(verseId);
-              setIsSingleVerse(true);
-            }} style={styles.actionBtn}>
+            <TouchableOpacity onPress={saveVerse} style={styles.actionBtn}>
               <Image
                 style={{ marginHorizontal: 3 }}
-                source={require("../assets/icons/explore.png")}
+                source={require("../assets/icons/save.png")}
               />
-              <Text>Explore</Text>
-            </TouchableOpacity> */}
+              <Text>Save</Text>
+            </TouchableOpacity>
 
 
 

@@ -20,7 +20,7 @@ export default function Feed() {
     console.log("Wait");
 
    
-    fetch(`http://192.168.56.1:3000/api/verses/get-verses-infinite`,{
+    fetch(`https://poetry-app-admin-panel.vercel.app/api/verses/get-verses-infinite`,{
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -12,7 +12,7 @@ function CarouselComponent() {
     }, [])
     
     const getPoets = () => {
-        fetch(`http://192.168.56.1:3000/api/poets/get-poets`)
+        fetch(`https://poetry-app-admin-panel.vercel.app/api/poets/get-poets`)
           .then(res => res.json())
           .then(data => {
             console.log(data.poets)

@@ -33,7 +33,7 @@ export default function Login() {
 
   const checkLogin = () => {
     console.log("Wait");
-    fetch("http://192.168.56.1:3000/api/auth/login", {
+    fetch("https://poetry-app-admin-panel.vercel.app/api/auth/login", {
       method: "POST",
 
       headers: {

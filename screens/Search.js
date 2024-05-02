@@ -15,7 +15,7 @@ export default function Search() {
     setIsFirstTime(false);
     setIsLoading(true);
     console.log("Searching");
-    fetch("http://192.168.56.1:3000/api/search/search-keyword", {
+    fetch("https://poetry-app-admin-panel.vercel.app/api/search/search-keyword", {
       method: "POST",
       
       headers: {

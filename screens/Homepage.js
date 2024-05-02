@@ -16,11 +16,12 @@ export default function Homepage() {
   const setAvatar = useUserStore((state) => state.setAvatar);
   const firstName = useUserStore((state) => state.firstName);
   const lastName = useUserStore((state) => state.lastName);
+  const setTotalBookmarks = useUserStore((state) => state.setTotalBookmarks);
 
 
   const getProfileData = () => {
     console.log("Wait");
-    fetch("http://192.168.56.1:3000/api/profiles/get-profile-data", {
+    fetch("https://poetry-app-admin-panel.vercel.app/api/profiles/get-profile-data", {
       method: "POST",
 
       headers: {
@@ -41,6 +42,7 @@ export default function Homepage() {
           setTotalFollowers(data.user.totalFollowers);
           setTotalFollowing(data.user.totalFollowing);
           setAvatar(data.user.avatar);
+          setTotalBookmarks(data.bookmarks);
        
         }
       })
@@ -48,9 +50,11 @@ export default function Homepage() {
         console.log(error)
       })
   }
+
+
   const getPoetryOfDay = () => {
     console.log("Wait");
-    fetch("http://192.168.56.1:3000/api/daily-verse/get-verse")
+    fetch("https://poetry-app-admin-panel.vercel.app/api/daily-verse/get-verse")
 
       .then(res => res.json())
       .then(data => {

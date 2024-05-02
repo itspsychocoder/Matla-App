@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useUserStore from '../store/store';
 
 
 import { AntDesign } from '@expo/vector-icons';
-
+import { MaterialIcons } from '@expo/vector-icons';
 export default function Profile({navigation}) {
   const setIsLogin = useUserStore((state) => state.setIsLogin);
   const firstName = useUserStore((state) => state.firstName);
@@ -15,11 +15,16 @@ export default function Profile({navigation}) {
   const username = useUserStore((state) => state.username);
   const avatar = useUserStore((state) => state.avatar);
   const totalFollowers = useUserStore((state) => state.totalFollowers);
+  const totalBookmarks = useUserStore((state) => state.totalBookmarks);
   const totalFollowing = useUserStore((state) => state.totalFollowing);
 
   const logout = () => {
     AsyncStorage.removeItem("token");
     setIsLogin(false)
+  }
+
+  const reportBug = () => {
+    Alert.alert("Opening Report Page");
   }
   return (
     <View style={styles.container}>
@@ -39,18 +44,12 @@ export default function Profile({navigation}) {
     <Text style={styles.cardHeading}>Followers</Text>
     <Text style={styles.cardNumber}>{totalFollowers}</Text>
      </View>
+     <View style={styles.card}>
+    <Text style={styles.cardHeading}>Bookmarks</Text>
+    <Text style={styles.cardNumber}>{totalBookmarks}</Text>
+     </View>
 
 
-     <View style={styles.card}>
-    <Text style={styles.cardHeading}>Following</Text>
-    <Text style={styles.cardNumber}>{totalFollowing}</Text>
-     </View>
-    
-     
-     <View style={styles.card}>
-    <Text style={styles.cardHeading}>Streak</Text>
-    <Text style={styles.cardNumber}>9</Text>
-     </View>
     
     
     </View>
@@ -59,16 +58,16 @@ export default function Profile({navigation}) {
 
 
    <View style={styles.settingsContainer}>
-   <View style={styles.flexDiv}>
-    <View style={{marginHorizontal: 10}}>
-    <AntDesign name="heart" size={18} color="white" />
-    </View>
-      
+   <TouchableOpacity onPress={reportBug} style={styles.flexDiv}>
+      <View style={{marginHorizontal: 10}}>
+
+      <MaterialIcons name="bookmark" size={18} color="white" />
+      </View>
       <Text style={styles.normalText}>
         
-     Add to Favourites
+   Bookmarks
       </Text>
-    </View>
+    </TouchableOpacity>
 
 {/*     
     <View style={styles.flexDiv}>
@@ -95,7 +94,17 @@ export default function Profile({navigation}) {
     Display Settings
       </Text>
     </View> */}
+      
+      <TouchableOpacity onPress={reportBug} style={styles.flexDiv}>
+      <View style={{marginHorizontal: 10}}>
 
+      <MaterialIcons name="bug-report" size={18} color="white" />
+      </View>
+      <Text style={styles.normalText}>
+        
+    Report a Bug
+      </Text>
+    </TouchableOpacity>
       
     <TouchableOpacity onPress={logout} style={styles.flexDiv}>
       <View style={{marginHorizontal: 10}}>
@@ -109,10 +118,10 @@ export default function Profile({navigation}) {
     </TouchableOpacity>
 
   </View>
-
+{/* 
   <View>
     <Text style={{color: "white"}}>User Id: {userId}</Text>
-  </View>
+  </View> */}
       
       <StatusBar style="auto" />
     </View>
@@ -151,7 +160,7 @@ const styles = StyleSheet.create({
   heading: {
     color: "white",
     fontSize: 25,
-    marginVertical: 5,
+    marginVertical: 20,
     fontWeight: "bold"
 
   },

@@ -38,7 +38,7 @@ export default function Search() {
     console.log("Wait");
 
    
-    fetch(`http://192.168.56.1:3000/api/verses/get-poet-verses-infinite`,{
+    fetch(`https://poetry-app-admin-panel.vercel.app/api/verses/get-poet-verses-infinite`,{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +111,7 @@ export default function Search() {
    console.log(userId, poetId);
 
     setIsLoading(true);
-    fetch("http://192.168.56.1:3000/api/follow/follow-poet", {
+    fetch("https://poetry-app-admin-panel.vercel.app/api/follow/follow-poet", {
       method: "POST",
       
       headers: {
@@ -138,7 +138,7 @@ export default function Search() {
   const searchKeyword = async() => {
     setIsLoading(true);
     console.log("Finding Single Verse", poetId);
-    fetch("http://192.168.56.1:3000/api/poets/get-single-poet", {
+    fetch("https://poetry-app-admin-panel.vercel.app/api/poets/get-single-poet", {
       method: "POST",
       
       headers: {

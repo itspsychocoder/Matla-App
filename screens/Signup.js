@@ -31,7 +31,7 @@ export default function Login() {
 
   const checkLogin = () => {
     console.log("Wait");
-    fetch("http://192.168.56.1:3000/api/auth/signup", {
+    fetch("https://poetry-app-admin-panel.vercel.app/api/auth/signup", {
       method: "POST",
 
       headers: {
@@ -46,6 +46,8 @@ export default function Login() {
         Alert.alert(data.message)
         console.log(data.message)
         if (data.type == "success") {
+
+          
           navigation.navigate('Login')
         }
       })
@@ -125,9 +127,9 @@ export default function Login() {
         </TouchableOpacity>
 
         
-        <TouchableOpacity style={styles.signup} onPress={() => navigation.navigate('Signup')}>
+        <TouchableOpacity style={styles.signup} onPress={() => navigation.navigate('Login')}>
           
-          <Text style={styles.text}>Don't have an account? Click here</Text>
+          <Text style={styles.text}>Have an account? Login</Text>
         </TouchableOpacity>
 
       </View>
