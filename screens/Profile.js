@@ -26,6 +26,9 @@ export default function Profile({navigation}) {
   const reportBug = () => {
     Alert.alert("Opening Report Page");
   }
+  const openBookmarks = () => {
+    Alert.alert("Bookmark Page");
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>My Profile</Text>
@@ -41,8 +44,8 @@ export default function Profile({navigation}) {
 
 
      <View style={styles.card}>
-    <Text style={styles.cardHeading}>Followers</Text>
-    <Text style={styles.cardNumber}>{totalFollowers}</Text>
+    <Text style={styles.cardHeading}>Following</Text>
+    <Text style={styles.cardNumber}>{totalFollowing}</Text>
      </View>
      <View style={styles.card}>
     <Text style={styles.cardHeading}>Bookmarks</Text>
@@ -58,7 +61,7 @@ export default function Profile({navigation}) {
 
 
    <View style={styles.settingsContainer}>
-   <TouchableOpacity onPress={reportBug} style={styles.flexDiv}>
+   <TouchableOpacity onPress={openBookmarks} style={styles.flexDiv}>
       <View style={{marginHorizontal: 10}}>
 
       <MaterialIcons name="bookmark" size={18} color="white" />
