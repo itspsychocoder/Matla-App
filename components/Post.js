@@ -134,7 +134,7 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
           >
           <Image
             style={styles.avatar}
-            source={{uri: poetData?.avatar}}
+            source={{uri: poetData.avatar}}
             alt="Profile Image"
             />
 

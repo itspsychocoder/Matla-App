@@ -41,7 +41,7 @@ export default function Homepage() {
           setLastName(data.user.lastName);
           setTotalFollowers(data.user.totalFollowers);
           setTotalFollowing(data.user.totalFollowing);
-          setAvatar(data.user?.avatar);
+          setAvatar(data.user.avatar);
           setTotalBookmarks(data.bookmarks);
        
         }
@@ -123,7 +123,7 @@ export default function Homepage() {
         >
           <Image
             style={styles.avatar}
-            source={{uri: dailyVerse.poet?.avatar}}
+            source={{uri: dailyVerse.poet.avatar}}
             alt="Profile Image"
           />
 
