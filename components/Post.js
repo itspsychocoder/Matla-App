@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import useUserStore from "../store/store";
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
+import Toast from "react-native-root-toast";
 export default function Homepage({poetData, likes,verseId,verse, poet}) {
   const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
   const setPoetId = useUserStore((state) => state.setPoetId);
@@ -52,7 +53,8 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
     })
       .then((res) => res.json())
       .then((data) => {
-        Alert.alert(data.message)      
+        Toast.show(data.message, {duration: Toast.durations.LONG,
+        }); 
       });
   }
 
@@ -108,9 +110,12 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
     const { status } = await MediaLibrary.requestPermissionsAsync();
     if (status === 'granted') {
       await MediaLibrary.saveToLibraryAsync(uri);
-      Alert.alert('Success', 'Image saved to library.');
+      let toast = Toast.show('Image saved to gallery.', {
+        duration: Toast.durations.LONG,
+      });
     } else {
-      Alert.alert('Permission Required', 'Permission to access media library is required to save images.');
+      let toast = Toast.show('Permission to access media gallery is required to save images.', {duration: Toast.durations.LONG,
+      });
     }
   };
 
@@ -134,7 +139,7 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
           >
           <Image
             style={styles.avatar}
-            source={{uri: poetData.avatar}}
+            source={{uri: poetData?.avatar}}
             alt="Profile Image"
             />
 
@@ -166,6 +171,7 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
             >
             <TouchableOpacity onPress={handleLike} style={styles.actionBtn}>
               <Image
+              
                 style={{
                   marginHorizontal: 3
                 }}
@@ -179,7 +185,8 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
 
             <TouchableOpacity onPress={saveVerse} style={styles.actionBtn}>
               <Image
-                style={{ marginHorizontal: 3 }}
+                style={{ marginHorizontal: 3, 
+                  filter: "sepia(100%) saturate(1000%) hue-rotate(190deg)"}}
                 source={require("../assets/icons/save.png")}
               />
               <Text>Save</Text>
@@ -226,7 +233,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 200,
 
-    backgroundColor: "#F8F4E3",
+    backgroundColor: "#FCFCFC",
     textAlign: "center",
     padding: 20,
     borderRadius: 20,

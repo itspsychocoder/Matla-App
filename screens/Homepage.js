@@ -41,7 +41,7 @@ export default function Homepage() {
           setLastName(data.user.lastName);
           setTotalFollowers(data.user.totalFollowers);
           setTotalFollowing(data.user.totalFollowing);
-          setAvatar(data.user.avatar);
+          setAvatar(data.user?.avatar);
           setTotalBookmarks(data.bookmarks);
        
         }
@@ -77,7 +77,6 @@ export default function Homepage() {
   const [isLoaded] = useFonts({
     test: require("../assets/fonts/urdu-font.ttf"),
   });
-  useEffect(() => {}, []);
   const handleOnLayout = useCallback(async () => {
     if (isLoaded) {
       console.log("Font Loaded");
@@ -85,6 +84,8 @@ export default function Homepage() {
     getProfileData();
     getPoetryOfDay();
   }, [isLoaded]);
+  useEffect(() => {}, []);
+ 
 
   if (!isLoaded) {
     console.log("ERRROR");
@@ -123,7 +124,7 @@ export default function Homepage() {
         >
           <Image
             style={styles.avatar}
-            source={{uri: dailyVerse.poet.avatar}}
+            source={{uri: dailyVerse?.poet?.avatar}}
             alt="Profile Image"
           />
 
@@ -145,8 +146,9 @@ export default function Homepage() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#202632",
+    display: "flex",
+    paddingTop: 200,
+    backgroundColor: "#011627",
     alignItems: "center",
     justifyContent: "center",
   },

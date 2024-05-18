@@ -3,7 +3,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import Tabs from "./navigation/tabs";
 import SeparatePages from "./navigation/separatePages";
 import Auth from "./navigation/auth";
-import SingleVerse from "./screens/SingleVerse"
 import { StyleSheet, Text, View, Image} from 'react-native';
 import { useEffect, useState } from "react";
 import useUserStore from './store/store';
@@ -11,7 +10,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import JWT from 'expo-jwt';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {createStackNavigator} from "@react-navigation/stack"
-import SplashScreen from './components/SplashScreen';
+import SplashScreen from "./components/SplashScreen";
+import { RootSiblingParent } from 'react-native-root-siblings';
 // import { JWT_TOKEN } from '@env';
 
 export default function App() {
@@ -68,27 +68,32 @@ const Tab = createBottomTabNavigator();
 
     setTimeout(() => {
       setIsSplash(false)
-    }, 5000);
+    }, 3000);
   }, []);
   return (
     <>
-    {
-      isSplash?(
-        <SplashScreen/>
-      ):(
-        <NavigationContainer>
-        {
-          isLogin?isSingleVerse?<SeparatePages/>:<Tabs/>:<Auth/>
-         }
- 
- 
+   {
+    isSplash?(
+      <SplashScreen/>
+    ):(
+<RootSiblingParent>
+
+      <NavigationContainer>
+      {
+        isLogin?isSingleVerse?<SeparatePages/>:<Tabs/>:<Auth/>
+      }
+
+
+   
+
      
- 
+   </NavigationContainer>
        
-     </NavigationContainer>
-         
-      )
-    }
+      </RootSiblingParent>
+    )
+   }
+      
+    
     </>
   );
 }

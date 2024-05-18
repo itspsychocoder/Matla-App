@@ -8,6 +8,7 @@ import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
 import { useFonts } from 'expo-font';
 import Post from "../components/Post"
+import Toast from 'react-native-root-toast';
 
 export default function Search() {
   const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
@@ -124,7 +125,7 @@ export default function Search() {
     .then(res => res.json())
     .then(data => {
       console.log(data)
-     Alert.alert(data.message);
+     Toast.show(data.message);
      if(data.type == "success") {
       setIsFollow(true)
      }
@@ -338,7 +339,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     color: "white",
     fontSize: 20,
-    backgroundColor: "#562998",
+    backgroundColor: "#2081C3",
     width: "140%",
     display: "flex",
     justifyContent: "center",
@@ -354,7 +355,7 @@ const styles = StyleSheet.create({
     minHeight: 900,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "#162447",
+    backgroundColor: "#011627",
 
   },
   input: {

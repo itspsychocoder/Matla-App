@@ -1,13 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Image, ImageBackground, Text, View } from 'react-native';
+import { StyleSheet, Image, ImageBackground, Text, View, ActivityIndicator } from 'react-native';
 import { SafeAreaView, Alert, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import useUserStore from '../store/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-root-toast';
 
 export default function Login() {
+  const [isLoading, setIsLoading] = useState(false)
   const avatar = useUserStore((state) => state.avatar);
   const username = useUserStore((state) => state.username);
   const isLogin = useUserStore((state) => state.isLogin);
@@ -30,7 +32,14 @@ export default function Login() {
   }
 
   const checkLogin = () => {
+    setIsLoading(true);
     console.log("Wait");
+
+    if(username=="" || firstName == "" || lastName=="" || email=="" || password=="" ){
+      Toast.show("Please fill all the details");
+    setIsLoading(false);
+      return;
+    }
     fetch("https://poetry-app-admin-panel.vercel.app/api/auth/signup", {
       method: "POST",
 
@@ -43,8 +52,15 @@ export default function Login() {
 
       .then(res => res.json())
       .then(data => {
-        Alert.alert(data.message)
+        Toast.show(data.message)
         console.log(data.message)
+        if (data.message=="11000") {
+          Toast.show("User already exists with this username/email")
+        }
+        else {
+          Toast.show(data.message)
+
+        }
         if (data.type == "success") {
 
           
@@ -52,8 +68,14 @@ export default function Login() {
         }
       })
       .catch(error => {
+   
+          Toast.show("Unknown error occured")
+        
         console.log(error)
       })
+
+    setIsLoading(false);
+
   }
 
   return (
@@ -61,7 +83,7 @@ export default function Login() {
 {/* <View style={styles.mainContainer}> */}
 
       <View style={styles.container}>
-        <Image style={styles.logo} source={require("../assets/profile.jpg")}/>
+        <Image style={styles.logo} source={require("../assets/icon.png")}/>
         <Text style={styles.heading}>Matla</Text>
         <Text style={styles.subHeading}>Signup</Text>
 
@@ -118,12 +140,10 @@ export default function Login() {
           />
 
         <TouchableOpacity style={styles.button} onPress={checkLogin}>
-        <LinearGradient
-        colors={['#C3E6ED', '#E2D6E8', '#C4E6D8', '#D9D9D9']}
-        style={styles.gradient}
-        >
-          <Text style={styles.loginText}>Login</Text>
-        </LinearGradient>
+        <ActivityIndicator animating={isLoading} color={"#fff"} size={"small"}/>
+
+          <Text style={styles.loginText}>Create Account</Text>
+      
         </TouchableOpacity>
 
         
@@ -169,7 +189,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 10,
     // background: "",
-    color: "red"
+    color: "red",
+    backgroundColor: "#2081C3",
+
+    
+    display: "flex", flexDirection: "row", justifyContent: 'center', alignItems: "center"
   },
   input: {
     height: 40,
@@ -234,6 +258,9 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     marginVertical: 20
+  },
+  loginText: {
+    color: "white"
   }
 
 });

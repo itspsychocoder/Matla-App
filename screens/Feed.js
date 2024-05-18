@@ -109,8 +109,7 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 50,
     flex: 1,
-    backgroundColor: '#fff',
-    backgroundColor: "#202632",
+    backgroundColor: "#011627",
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -125,7 +124,7 @@ const styles = StyleSheet.create({
   button: {
     marginHorizontal: 5,
     padding: 8,
-    backgroundColor: "#804fcb",
+    backgroundColor: "#2081C3",
     color: "white",
     paddingVertical: 10,
     paddingHorizontal: 30,

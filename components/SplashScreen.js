@@ -8,7 +8,7 @@ function SplashScreen() {
         justifyContent: "space-between",
         alignItems: "center",
         height: "100%",
-    backgroundColor: '#202632',
+    backgroundColor: '#011627',
 
     }}>
 <View>
@@ -19,7 +19,7 @@ function SplashScreen() {
 </View>
 
 <View style={{display: "flex", justifyContent: 'center', alignItems: "center"}}>
-<Image style={{width: 150, height: 150, marginVertical: 10, borderRadius: 20}} source={require("../assets/profile.jpg")} alt='Profile Image'/>
+<Image style={{width: 150, height: 150, marginVertical: 10, borderRadius: 20}} source={require("../assets/icon.png")} alt='Profile Image'/>
 
 <Text style={{color: "white",fontWeight: "bold", fontSize: 30}}>
 Matla
@@ -30,7 +30,7 @@ Matla
 <View>
 
     <Text style={{color: "white", marginVertical: 30,fontWeight: "bold", fontSize: 20}}>
-Created by: Psycho Coders
+Created by: Psycho Coder
 
 </Text>
     </View>

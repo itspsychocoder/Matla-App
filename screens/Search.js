@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     minHeight: 800,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "#202632"
+    backgroundColor: "#011627"
 
   },
   input: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 5,
-    backgroundColor: "#804fcb",
+    backgroundColor: "#2081C3",
     color: "white",
     paddingVertical: 10,
     paddingHorizontal: 30,
