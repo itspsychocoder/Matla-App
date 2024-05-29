@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Tabs from "./navigation/tabs";
 import SeparatePages from "./navigation/separatePages";
 import Auth from "./navigation/auth";
+import Bookmarks from "./navigation/bookmarks";
 import { StyleSheet, Text, View, Image} from 'react-native';
 import { useEffect, useState } from "react";
 import useUserStore from './store/store';
@@ -12,7 +13,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {createStackNavigator} from "@react-navigation/stack"
 import SplashScreen from "./components/SplashScreen";
 import { RootSiblingParent } from 'react-native-root-siblings';
+
 // import { JWT_TOKEN } from '@env';
+
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -27,6 +30,7 @@ export default function App() {
   const setTotalFollowers = useUserStore((state) => state.setTotalFollowers);
   const setTotalFollowing = useUserStore((state) => state.setTotalFollowing);
   const setAvatar = useUserStore((state) => state.setAvatar);
+  const isBookmark = useUserStore((state) => state.isBookmark);
   const setUserId = useUserStore((state) => state.setUserId);
   const firstName = useUserStore((state) => state.firstName);
   const lastName = useUserStore((state) => state.lastName);
@@ -79,10 +83,19 @@ const Tab = createBottomTabNavigator();
 <RootSiblingParent>
 
       <NavigationContainer>
-      {
-        isLogin?isSingleVerse?<SeparatePages/>:<Tabs/>:<Auth/>
-      }
-
+      {isLogin ? (
+        isSingleVerse ? (
+          <SeparatePages />
+        ) : (
+          isBookmark ? (
+            <Bookmarks />
+          ) : (
+            <Tabs />
+          )
+        )
+      ) : (
+        <Auth />
+      )}
 
    
 

@@ -10,10 +10,13 @@ import { useFonts } from 'expo-font';
 import Post from "../components/Post"
 import Toast from 'react-native-root-toast';
 
-export default function Search() {
+export default function Search({navigation}) {
   const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
   const userId = useUserStore((state) => state.userId);
   const poetId = useUserStore((state) => state.poetId);
+
+  const screen = useUserStore((state) => state.screen);
+
 
   const [verse, setVerse] = useState({});
   const [inputText, setInputText] = useState('Test');
@@ -73,6 +76,8 @@ export default function Search() {
   
   
   useEffect(() => {
+
+  
     searchKeyword();
     getVerses();
     const backAction = () => {

@@ -15,7 +15,7 @@ export default function Search() {
     setIsFirstTime(false);
     setIsLoading(true);
     console.log("Searching");
-    fetch("https://poetry-app-admin-panel.vercel.app/api/search/search-keyword", {
+    const res = await fetch("https://poetry-app-admin-panel.vercel.app/api/search/search-keyword", {
       method: "POST",
       
       headers: {
@@ -24,17 +24,15 @@ export default function Search() {
       body: JSON.stringify({ search: search })
       
     })
+
+    const result = await res.json();
     
-    .then(res => res.json())
-    .then(data => {
-      console.log(data.verses)
-      if (data.type == "success") {
-        setVerses(data.verses)
+    
+      console.log(result.verses)
+      if (result.type == "success") {
+        setVerses(result.verses)
+     
       }
-    })
-    .catch(error => {
-      console.log(error)
-    })
     setIsLoading(false);
   }
   return (
@@ -59,8 +57,8 @@ export default function Search() {
    Search
      </Text>
    </TouchableOpacity>
-   <ActivityIndicator animating={isLoading} color={"#fff"} size={"large"}/>
-   
+   <ActivityIndicator style={{marginVertical:20}} animating={isLoading} color={"#fff"} size={"large"}/>
+  
    {
     isLoading==false&&verses.length==0&&isFirstTime==false?(
       <View>
@@ -93,8 +91,7 @@ const styles = StyleSheet.create({
     flex: 1,
     minHeight: 800,
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: "#011627"
+    backgroundColor: "#0d0d15"
 
   },
   input: {
@@ -109,7 +106,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 5,
-    backgroundColor: "#2081C3",
+    backgroundColor: "#5dbb27",
     color: "white",
     paddingVertical: 10,
     paddingHorizontal: 30,

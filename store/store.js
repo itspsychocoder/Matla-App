@@ -13,6 +13,9 @@ const useUserStore = create((set) => ({
   isLogin: false,
   isSingleVerse: false,
   poetId: "",
+  screen: "",
+  isBookmark: false,
+  setScreen: (newScreen) => set({ screen:newScreen }),
   setPoetId: (id) => set({ poetId:id }),
   setUserId: (id) => set({ userId:id }),
   setTotalFollowers: (number) => set({ totalFollowers:number }),
@@ -24,6 +27,7 @@ const useUserStore = create((set) => ({
   setEmail: (newEmail) => set({ email:newEmail }),
   setIsLogin: (newLoginState) => set({ isLogin:newLoginState }),
   setIsSingleVerse: (newState) => set({ isSingleVerse:newState }),
+  setIsBookmark: (newState) => set({ isBookmark:newState }),
   setAvatar: (newAvatar) => set({ avatar:newAvatar })
 }))
 

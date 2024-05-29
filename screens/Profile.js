@@ -9,6 +9,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 export default function Profile({navigation}) {
   const setIsLogin = useUserStore((state) => state.setIsLogin);
+  const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
+  const setScreen = useUserStore((state) => state.setScreen);
   const firstName = useUserStore((state) => state.firstName);
   const userId = useUserStore((state) => state.userId);
   const lastName = useUserStore((state) => state.lastName);
@@ -16,6 +18,7 @@ export default function Profile({navigation}) {
   const avatar = useUserStore((state) => state.avatar);
   const totalFollowers = useUserStore((state) => state.totalFollowers);
   const totalBookmarks = useUserStore((state) => state.totalBookmarks);
+  const setIsBookmark = useUserStore((state) => state.setIsBookmark);
   const totalFollowing = useUserStore((state) => state.totalFollowing);
 
   const logout = () => {
@@ -28,6 +31,9 @@ export default function Profile({navigation}) {
   }
   const openBookmarks = () => {
     Alert.alert("Bookmark Page");
+    setScreen("Bookmarks");
+    setIsSingleVerse(false);
+    setIsBookmark(true);
   }
   return (
     <View style={styles.container}>
@@ -134,7 +140,7 @@ export default function Profile({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#011627',
+    backgroundColor: '#0d0d15',
     justifyContent: "center",
     alignItems: 'center',
   },
@@ -180,7 +186,7 @@ const styles = StyleSheet.create({
     display:"flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#0A0F0D",
+    backgroundColor: "#302f3f",
     marginHorizontal: 5,
     marginVertical: 20
   },

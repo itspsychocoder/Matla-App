@@ -8,42 +8,31 @@ const Tab = createBottomTabNavigator();
 
 import useUserStore from "../store/store";
 import { useEffect } from "react";
-export default function Tabs({initialRouteName}) {
+export default function Tabs({}) {
 
-  useEffect(() => {
-    Alert.alert(`Opening: ${initialRouteName}`)
-
-    
-  }, [])
-  
 
 
   return (
     <Tab.Navigator
-    initialRouteName={initialRouteName}
     
       screenOptions={{
         tabBarVisible: false,
         tabBarStyle: { display: "none" },
       }}
-    >
-     
-     
-<Tab.Screen
-        name="SingleVerse"
-        component={SingleVerse}
-        options={{
-          headerShown: false,
-        }}
-      />
+>
 
 
 <Tab.Screen
         name="Bookmarks"
         component={Bookmarks}
-        options={{
+      
+        options={({ navigation }) => ({
+          title: "Bookmarks",
           headerShown: false,
-        }}
+          headerLeft: () => (
+            <Button onPress={() => navigation.goBack()} title="Back" />
+          ),
+        })}
       />
 
     </Tab.Navigator>

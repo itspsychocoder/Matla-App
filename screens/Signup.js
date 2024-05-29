@@ -35,7 +35,7 @@ export default function Login() {
     setIsLoading(true);
     console.log("Wait");
 
-    if(username=="" || firstName == "" || lastName=="" || email=="" || password=="" ){
+    if(Username=="" || firstName == "" || lastName=="" || email=="" || password=="" ){
       Toast.show("Please fill all the details");
     setIsLoading(false);
       return;

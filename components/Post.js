@@ -6,12 +6,12 @@ import useUserStore from "../store/store";
 import * as MediaLibrary from 'expo-media-library';
 import { captureRef } from 'react-native-view-shot';
 import Toast from "react-native-root-toast";
-export default function Homepage({poetData, likes,verseId,verse, poet}) {
+export default function Homepage({navigation, poetData, likes,verseId,verse, poet}) {
   const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
   const setPoetId = useUserStore((state) => state.setPoetId);
   const captureViewRef = useRef(null);
 
-  const {username, userId} = useUserStore();
+  const {username, userId, setScreen} = useUserStore();
  
 
   const [isLiked, setIsLiked] = useState(false);
@@ -23,7 +23,7 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
     test: require("../assets/fonts/urdu-font.ttf"),
   });
   useEffect(() => {
-    setIsLiked(likes.includes(username));
+    setIsLiked(likes?.includes(username));
     setTotalLikes(likes.length)
   }, []);
   const handleOnLayout = useCallback(async () => {
@@ -44,6 +44,18 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
     };
     console.log(data)
 
+    fetch(`https://poetry-app-admin-panel.vercel.app/api/bookmarks/add-bookmark`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        Toast.show(data.message, {duration: Toast.durations.LONG,
+        }); 
+      });
     fetch(`https://poetry-app-admin-panel.vercel.app/api/bookmarks/add-bookmark`, {
       method: "POST",
       headers: {
@@ -128,7 +140,9 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
         onPress={()=>{
           Alert.alert(`ID: ${poetData._id}`)
           setPoetId(poetData._id);
+          setScreen("SingleVerse");
           setIsSingleVerse(true);
+          
         }}
           style={{
             display: "flex",
@@ -145,10 +159,11 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
 
           <Text style={styles.poetOfDay}>@{poet}</Text>
         </TouchableOpacity>
-        <Text style={{ fontFamily: "test", fontSize: 22 }}>
+    
+        <Text style={{ fontFamily: "test", fontSize: 22, color: "white" }}>
           {verse?.split("\\n")[0]}
         </Text>
-        <Text style={{ fontFamily: "test", fontSize: 22 }}>
+        <Text style={{ fontFamily: "test", fontSize: 22 , color: "white"}}>
           {verse?.split("\\n")[1]}
         </Text>
 
@@ -156,8 +171,8 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
           style={{
             width: 300,
             height: "100px",
-            borderTopWidth: 2,
-            borderColor: "black",
+            // borderTopWidth: 2,
+            // borderColor: "black",
           }}
           >
           <View
@@ -170,27 +185,34 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
             }}
             >
             <TouchableOpacity onPress={handleLike} style={styles.actionBtn}>
-              <Image
+              {
+                isLiked?(
+                  <Image
+              
+                style={{
+                  marginHorizontal: 3
+                }}
+                source={require("../assets/icons/like-done.png")}
+              />
+
+                ):(
+                  <Image
               
                 style={{
                   marginHorizontal: 3
                 }}
                 source={require("../assets/icons/like.png")}
               />
+                  
+                )
+              }
+              
               <Text style={{
-                color: isLiked?"#562998":"black"
-              }}>Like ({totalLikes})</Text>
+                color: "white"
+               }}>({totalLikes})</Text>
             </TouchableOpacity>
             
 
-            <TouchableOpacity onPress={saveVerse} style={styles.actionBtn}>
-              <Image
-                style={{ marginHorizontal: 3, 
-                  filter: "sepia(100%) saturate(1000%) hue-rotate(190deg)"}}
-                source={require("../assets/icons/save.png")}
-              />
-              <Text>Save</Text>
-            </TouchableOpacity>
 
 
 
@@ -199,7 +221,17 @@ export default function Homepage({poetData, likes,verseId,verse, poet}) {
                 style={{ marginHorizontal: 3 }}
                 source={require("../assets/icons/picit.png")}
               />
-              <Text>Pic It</Text>
+              {/* <Text>Pic It</Text> */}
+            </TouchableOpacity>
+
+
+            
+            <TouchableOpacity onPress={saveVerse} style={styles.actionBtn}>
+              <Image
+                style={{ marginHorizontal: 3,}}
+                source={require("../assets/icons/save.png")}
+              />
+              {/* <Text>Save</Text> */}
             </TouchableOpacity>
 
           </View>
@@ -233,7 +265,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 200,
 
-    backgroundColor: "#FCFCFC",
+    backgroundColor: "#302f3f",
     textAlign: "center",
     padding: 20,
     borderRadius: 20,
@@ -273,6 +305,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontSize: 15,
     fontWeight: "bold",
+    color: "white",
+
   },
   avatar: {
     width: 30,
