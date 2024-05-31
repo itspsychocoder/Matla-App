@@ -248,7 +248,7 @@ export default function Feed() {
 
             {isLoading == false && allFollowedPosts.length !== totalFollowedPosts ? (
               <TouchableOpacity
-                onPress={getVerses}
+                onPress={getFollowedVerses}
                 style={[
                   styles.button,
                   {

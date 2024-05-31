@@ -155,6 +155,7 @@ export default function Homepage({verseId,verse, poet}) {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
+    backgroundColor: "#0d0d15"
   },
   actionBtn: {
     display: "flex",

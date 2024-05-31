@@ -2,8 +2,12 @@ import * as React from 'react';
 import { Dimensions, StyleSheet, Image, Text, View } from 'react-native';
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useFonts } from "expo-font";
+import { TouchableOpacity } from 'react-native';
+import useUserStore from '../store/store';
+function PoetHome({poet, avatar, id}) {
+  const setIsSingleVerse = useUserStore((state) => state.setIsSingleVerse);
+  const setPoetId = useUserStore((state) => state.setPoetId);
 
-function PoetHome({poet, avatar}) {
     const [isLoaded] = useFonts({
         test: require("../assets/fonts/urdu-font.ttf"),
       });
@@ -21,7 +25,10 @@ function PoetHome({poet, avatar}) {
         return null;
       }
     return (
-        <View style={{
+        <TouchableOpacity onPress={()=>{
+          setPoetId(id);
+          setIsSingleVerse(true);
+        }} style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -38,7 +45,7 @@ function PoetHome({poet, avatar}) {
 {poet}
             </Text>
         </View>
-            </View>
+            </TouchableOpacity>
     );
 }
 

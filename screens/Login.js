@@ -48,6 +48,7 @@ export default function Login() {
 
       .then(res => res.json())
       .then(data => {
+        console.log("Login Data: ", data)
         Toast.show(data.message)
         
         if (data.type == "success") {

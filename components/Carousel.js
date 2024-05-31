@@ -35,7 +35,7 @@ function CarouselComponent() {
                     // console.log('current index:', index)
                 }}
                 renderItem={({ index }) => (
-                   <PoetHome avatar={allPoets[index].avatar} poet={allPoets[index].poetName}/>
+                   <PoetHome id={allPoets[index]._id} avatar={allPoets[index].avatar} poet={allPoets[index].poetName}/>
                 )}
             />
         </View>

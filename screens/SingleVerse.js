@@ -216,17 +216,22 @@ source={require("../assets/icons/tick-icon.png")}/>
  </TouchableOpacity> */}
 
  <View style={{marginHorizontal:10,width: "100%", display: "flex", justifyContent: "space-evenly", alignItems: "center", flexDirection: "row"}}>
-  <View>
-    <Text style={styles.follower}>{poet.followers?.length} Followers</Text>
+  <View style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+    <Text style={{color: "white", fontWeight: "bold", fontSize:20}}>Followers</Text>
+    <Text style={[styles.follower, {fontSize:40, fontWeight: "bold"}]}>{poet.followers?.length}</Text>
   </View>
 
 
-  <View>
-    <Text style={styles.follower}>{poet.followers?.length} Verses</Text>
+  <View style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+    <Text style={{color: "white", fontWeight: "bold", fontSize:20}}>Verses</Text>
+    <Text style={[styles.follower, {fontSize:40, fontWeight: "bold"}]}>{totalPosts} </Text>
   </View>
 
 
-  <View>
+ 
+ </View>
+
+ <View style={{display: "flex", justifyContent: "center", alignItems: "center",width: "100%"}}>
   {isFollow?(
       <TouchableOpacity onPress={followPoet} style={styles.followBtn}>
       <Text style={{fontSize: 20, color: "white"}}>
@@ -243,7 +248,6 @@ source={require("../assets/icons/tick-icon.png")}/>
     )
    }
   </View>
- </View>
 
 
  
@@ -260,16 +264,18 @@ source={require("../assets/icons/tick-icon.png")}/>
     <Text style={styles.follower}>{poet.dateOfBirth}</Text>
   </View>
 
-
+  
   <View style={{marginVertical: 20,width: "100%",display: "flex", flexDirection: "row", justifyContent: "space-evenly", alignItems: "center"}}>
-    <Text style={styles.follower}>Location</Text>
-    <Text style={styles.follower}>{poet.dateOfBirth}</Text>
+    <Text style={styles.follower}>Date of Death</Text>
+    <Text style={styles.follower}>{poet.dateOfDeath}</Text>
   </View>
+
 
   <View style={{width: "100%",display: "flex", flexDirection: "row", justifyContent: "space-evenly", alignItems: "center"}}>
-    <Text style={styles.follower}>Category</Text>
-    <Text style={styles.follower}>{poet.dateOfBirth}</Text>
+    <Text style={styles.follower}>Location</Text>
+    <Text style={styles.follower}>{poet.location}</Text>
   </View>
+
 
  </View>
 
@@ -344,8 +350,8 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     color: "white",
     fontSize: 20,
-    backgroundColor: "#2081C3",
-    width: "140%",
+    backgroundColor: "#5dbb27",
+    width: "60%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -360,7 +366,7 @@ const styles = StyleSheet.create({
     minHeight: 900,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "#011627",
+    backgroundColor: "#0d0d15",
 
   },
   input: {
