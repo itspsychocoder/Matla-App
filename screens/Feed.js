@@ -306,6 +306,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     padding: 8,
     backgroundColor: "#5dbb27",
+    // 347a15
     color: "white",
     paddingVertical: 10,
     paddingHorizontal: 30,

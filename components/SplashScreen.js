@@ -8,7 +8,7 @@ function SplashScreen() {
         justifyContent: "space-between",
         alignItems: "center",
         height: "100%",
-    backgroundColor: '#011627',
+    backgroundColor: '#0d0d15',
 
     }}>
 <View>
